@@ -1,0 +1,14 @@
+# HubSpot Config & Credentials
+hubspot.config.yml
+.hs-config.json
+
+# Local Environment & Editor Settings
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Dependencies
+node_modules/
+dist/
