@@ -4,15 +4,19 @@
     {% scope_css %}
       .custom-promo-card-container {
         --primary-accent: {{ module.styles.primary_color.color }};
-        --text-color: rgba({{ module.styles.text_color.color|convert_rgb }}, {{ module.styles.text_color.opacity / 100 }});
+        --text-color: rgba({{ module.styles.text_color.color|convert_rgb }} {{ module.styles.text_color.opacity / 100 }});
         --text-color-rgb: {{ module.styles.text_color.color|convert_rgb }};
-        
+
         {% if module.styles.bg_style == "solid" %}
-          --card-bg: rgba({{ module.styles.primary_color.color|convert_rgb }}, {{ module.styles.primary_color.opacity / 100 }});
+          --card-bg: rgba({{ module.styles.primary_color.color|convert_rgb }} {{ module.styles.primary_color.opacity / 100 }});
           --card-border: rgba({{ module.styles.text_color.color|convert_rgb }}, 0.15);
           --card-backdrop: none;
         {% elif module.styles.bg_style == "gradient" %}
-          --card-bg: linear-gradient(135deg, rgba({{ module.styles.primary_color.color|convert_rgb }}, 0.3) 0%, rgba(15, 23, 42, 0.85) 100%);
+          --card-bg: linear-gradient(
+            135deg,
+            rgba({{ module.styles.primary_color.color|convert_rgb }}, 0.3) 0%,
+            rgba(15, 23, 42, 0.85) 100%
+          );
           --card-border: rgba({{ module.styles.primary_color.color|convert_rgb }}, 0.4);
           --card-backdrop: none;
         {% elif module.styles.bg_style == "glassmorphism" %}
@@ -31,28 +35,32 @@
     {% if module.card_badge %}
       <span class="custom-promo-card__badge">{{ module.card_badge|escape_html }}</span>
     {% endif %}
-    
+
     <div class="custom-promo-card__main">
       <h2 class="custom-promo-card__title">{{ module.card_title|escape_html }}</h2>
       <div class="custom-promo-card__body">
         {{ module.card_body|sanitize_html }}
       </div>
     </div>
-    
+
     {% if module.card_button_text and module.card_button_link.url.href %}
       <div class="custom-promo-card__actions">
         {% set rel_attrs = [] %}
         {% if module.card_button_link.no_follow %}
-          {% do rel_attrs.append('nofollow') %}
+          {% do rel_attrs.append("nofollow") %}
         {% endif %}
         {% if module.card_button_link.open_in_new_tab %}
-          {% do rel_attrs.append('noopener') %}
+          {% do rel_attrs.append("noopener") %}
         {% endif %}
-        
-        <a class="custom-promo-card__button" 
-           href="{{ module.card_button_link.url.href|escape_url }}"
-           {% if module.card_button_link.open_in_new_tab %}target="_blank"{% endif %}
-           {% if rel_attrs %}rel="{{ rel_attrs|join(' ') }}"{% endif %}>
+
+        <a
+          class="custom-promo-card__button"
+          href="{{ module.card_button_link.url.href|escape_url }}"
+          {% if module.card_button_link.open_in_new_tab %}target="_blank"
+          {% endif %}
+          {% if rel_attrs %}rel="{{ rel_attrs|join(" ") }}"
+          {% endif %}
+        >
           {{ module.card_button_text|escape_html }}
         </a>
       </div>

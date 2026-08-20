@@ -17,9 +17,10 @@
   -webkit-backdrop-filter: var(--card-backdrop);
   color: var(--text-color);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
-              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              border-color 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-color 0.3s ease;
   position: relative;
   overflow: hidden;
   text-align: left;
@@ -33,7 +34,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
   pointer-events: none;
   z-index: 1;
 }
@@ -41,15 +46,19 @@
 /* Premium Hover micro-animations */
 .custom-promo-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), 
-              0 0 16px 2px rgba(var(--text-color-rgb), 0.1);
+  box-shadow:
+    0 12px 40px 0 rgba(0, 0, 0, 0.4),
+    0 0 16px 2px rgba(var(--text-color-rgb), 0.1);
   border-color: rgba(var(--text-color-rgb), 0.5);
 }
 
 /* Badge styling */
 .custom-promo-card__badge {
   align-self: flex-start;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -73,7 +82,10 @@
 }
 
 .custom-promo-card__title {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.75rem 0;
@@ -82,7 +94,10 @@
 }
 
 .custom-promo-card__body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-size: 0.95rem;
   line-height: 1.6;
   opacity: 0.9;
@@ -106,7 +121,10 @@
 
 .custom-promo-card__button {
   display: inline-block;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
@@ -115,7 +133,10 @@
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   text-align: center;
 }
 
@@ -142,16 +163,16 @@
     gap: 2.5rem;
     padding: 2.5rem;
   }
-  
+
   .custom-promo-card__main {
     flex: 1;
   }
-  
+
   .custom-promo-card__actions {
     margin-top: 0;
     flex-shrink: 0;
   }
-  
+
   .custom-promo-card__badge {
     position: absolute;
     top: 1rem;

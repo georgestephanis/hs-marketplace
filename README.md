@@ -38,20 +38,26 @@ This module is constructed using **modern CSS (back-drop blur, variables, contai
 ## Local Development Workflow
 
 ### 1. Installation & Authentication
+
 Ensure you have the HubSpot CLI installed and authenticated with your developer or sandbox account:
+
 ```bash
 npm install -g @hubspot/cli
 hs auth
 ```
 
 ### 2. Auto-sync (Watch Mode)
+
 Deploy your local edits to your HubSpot account in real time:
+
 ```bash
 hs watch src/ custom-promo-card
 ```
 
 ### 3. Marketplace Validation
+
 Before submitting the module to the Extension Marketplace, run the built-in validation suite:
+
 ```bash
 hs cms module marketplace-validate src/custom-promo-card.module
 ```
@@ -61,12 +67,16 @@ hs cms module marketplace-validate src/custom-promo-card.module
 ## Code Walkthrough & Connecting the Dots
 
 ### The Fields Schema (`fields.json`)
+
 The options shown in the page editor's left sidebar are defined in `fields.json`.
+
 - **Content tab**: Handles texts, rich text elements, and links.
 - **Style tab** (`"tab": "STYLE"`): Groups parameters for background style type, background colors, and border widths, hiding complex design controls from content editors while giving them full brand flexibility.
 
 ### Styling with Container Queries (`module.css`)
+
 To support dragging this module into a multi-column sidebar or a full-bleed footer, we define the container:
+
 ```css
 .promo-card-wrapper {
   container-type: inline-size;
@@ -82,16 +92,18 @@ To support dragging this module into a multi-column sidebar or a full-bleed foot
 ```
 
 ### Scoped styling (`module.html`)
+
 To prevent styles from bleeding into the rest of the page, we wrap CSS variables and overrides inside HubSpot's `scope_css` block:
+
 ```html
 {% require_css %}
-  <style>
-    {% scope_css %}
-      .promo-card {
-        --card-bg: {{ module.styles.bg_color.css }};
-        --card-text: {{ module.styles.text_color.css }};
-      }
-    {% end_scope_css %}
-  </style>
+<style>
+  {% scope_css %}
+    .promo-card {
+      --card-bg: {{ module.styles.bg_color.css }};
+      --card-text: {{ module.styles.text_color.css }};
+    }
+  {% end_scope_css %}
+</style>
 {% end_require_css %}
 ```

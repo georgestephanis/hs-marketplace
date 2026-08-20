@@ -22,13 +22,15 @@ The following specialized custom skills have been permanently installed in the g
 To ensure all custom modules pass the HubSpot Asset Marketplace validator (`hs cms module marketplace-validate`), all AI agents must follow these rules:
 
 ### 1. CSS Class Prefixing
+
 - **Rule**: Every CSS class in the module's HTML, CSS, and JS files **MUST** be prefixed with the module's folder base name (e.g. `custom-promo-card-` for `custom-promo-card.module`).
 - **Reason**: The validator will reject any module containing standard, non-prefixed HTML elements (like `div`, `article`, etc.) that use generic class names.
 - **Example**:
   - ❌ Incorrect: `<div class="promo-card">`
-  -  Correct: `<div class="custom-promo-card">`
+  - Correct: `<div class="custom-promo-card">`
 
 ### 2. Color Field inheritance
+
 - **Rule**: Any field of `type: "color"` in `fields.json` **MUST** include an `inherited_value` linking it to standard theme colors.
 - **Reason**: The marketplace validator requires color overrides to be mapped to global theme parameters.
 - **Example**:
@@ -43,26 +45,29 @@ To ensure all custom modules pass the HubSpot Asset Marketplace validator (`hs c
   ```
 
 ### 3. Safe Escaping & Sanitization
+
 - **Rule**: Avoid raw output of editor fields. Always use HubL escaping filters:
   - **Plain Text / Attributes**: Use `{{ module.field_name|escape_html }}` or `{{ module.field_name|escape_attr }}`.
   - **URLs / Links**: Use `{{ module.link_field.url.href|escape_url }}`.
   - **Rich Text**: Use `{{ module.richtext_field|sanitize_html }}`.
 
 ### 4. Scoped Styling
+
 - **Rule**: Emit module styles in `module.html` using the `scope_css` block inside `require_css` to restrict them to each instance of the module:
   ```html
   {% require_css %}
-    <style>
-      {% scope_css %}
-        .custom-promo-card {
-          /* styles namespace-restricted here */
-        }
-      {% end_scope_css %}
-    </style>
+  <style>
+    {% scope_css %}
+      .custom-promo-card {
+        /* styles namespace-restricted here */
+      }
+    {% end_scope_css %}
+  </style>
   {% end_require_css %}
   ```
 
 ### 5. Prevent Git Diff Churn (Canonical Key Ordering)
+
 - **Rule**: The keys inside `fields.json` must be written in canonical order:
   `id -> name -> label -> [inline_help_text] -> required -> locked -> [occurrence] -> [visibility] -> «type-specific» -> type -> display_width -> [default]`.
 - **Workflow**:
