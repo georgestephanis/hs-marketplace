@@ -87,3 +87,13 @@ To ensure all custom modules pass the HubSpot Asset Marketplace validator (`hs c
 - **Rule**: Do not commit or co-locate non-standard module files (e.g. `README.md`, `.png` preview screenshots, mock files) inside the `.module` directory without registering them or ignoring them.
 - **Reason**: The HubSpot CLI upload command will fail with `Unknown file type for module file <name>`.
 - **Solution**: Always store screenshots and mock files in parent directories (like `preview/`), and add a project-root `.hsignore` rule (e.g. `**/README.md`) to ignore documentation files inside `.module` folders on upload and watch.
+
+---
+
+## ⚙️ Configured HubSpot Developer Account
+
+Subsequent agents must utilize the default active CLI account profile linked to George Stephanis:
+
+- **Default Account Profile Name**: `sardonyx`
+- **Account ID**: `246445154`
+- **Verification**: Run `hs account list` to verify the active default pointer is set to `sardonyx`.
