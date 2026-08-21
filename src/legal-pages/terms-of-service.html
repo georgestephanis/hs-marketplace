@@ -15,41 +15,50 @@
     {{ standard_header_includes }}
     {% require_css %}
       <style>
+        body.legal-page {
+          /* Committed dark palette. Painted explicitly so the background can
+             never disagree with the text colour, whatever the viewer's
+             colour-scheme preference or the parent theme's own styles. */
+          background-color: #0f172a;
+          color: #e5e7eb;
+          margin: 0;
+        }
         .legal-doc {
-          --ink: #1f2937; --muted: #6b7280; --rule: #e5e7eb; --accent: #1d4ed8;
+          --ink: #e5e7eb; --muted: #94a3b8; --rule: #334155; --accent: #93b4fd;
+          --surface: #1e293b; --surface-soft: #172033;
           max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 5rem;
           color: var(--ink); line-height: 1.65;
           font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
         }
-        .legal-doc h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 1.5rem; letter-spacing: -0.02em; }
+        .legal-doc h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 1.5rem;
+                        letter-spacing: -0.02em; color: #ffffff; }
         .legal-doc h2 { font-size: 1.15rem; margin: 2.75rem 0 0.75rem; padding-top: 1.25rem;
-                        border-top: 1px solid var(--rule); letter-spacing: -0.01em; }
+                        border-top: 1px solid var(--rule); letter-spacing: -0.01em;
+                        color: #f1f5f9; }
         .legal-doc h2:first-of-type { border-top: 0; padding-top: 0; }
-        .legal-doc p, .legal-doc li { font-size: 1rem; }
+        .legal-doc p, .legal-doc li { font-size: 1rem; color: var(--ink); }
         .legal-doc ul { padding-left: 1.25rem; }
         .legal-doc li { margin-bottom: 0.4rem; }
         .legal-doc a { color: var(--accent); }
-        .legal-doc code { background: #f3f4f6; padding: 0.1em 0.35em;
-                          border-radius: 4px; font-size: 0.9em; }
+        .legal-doc a:hover { color: #c7d8ff; }
+        .legal-doc strong { color: #ffffff; }
+        .legal-doc code { background: var(--surface); color: #e2e8f0;
+                          padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
         .legal-doc .table-wrap { overflow-x: auto; margin: 1.25rem 0; }
         .legal-doc table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
         .legal-doc th, .legal-doc td { border: 1px solid var(--rule);
                                        padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; }
-        .legal-doc th { background: #f9fafb; font-weight: 600; }
+        .legal-doc th { background: var(--surface); font-weight: 600; color: #f1f5f9; }
+        .legal-doc td { background: var(--surface-soft); }
         .legal-doc blockquote { margin: 1.25rem 0; padding: 0.75rem 1rem;
-                                border-left: 3px solid var(--accent); background: #f8fafc; }
+                                border-left: 3px solid var(--accent); background: var(--surface-soft); }
         .legal-doc blockquote p { margin: 0; }
         .legal-doc__meta { color: var(--muted); font-size: 0.95rem; }
-        @media (prefers-color-scheme: dark) {
-          .legal-doc { --ink: #e5e7eb; --muted: #9ca3af; --rule: #374151; --accent: #93b4fd; }
-          .legal-doc code { background: #1f2937; }
-          .legal-doc th { background: #1f2937; }
-          .legal-doc blockquote { background: #111827; }
-        }
+        .legal-doc__meta strong { color: #cbd5e1; }
       </style>
     {% end_require_css %}
   </head>
-  <body>
+  <body class="legal-page">
     <main class="legal-doc">
       <h1>Terms of Service</h1>
       <p class="legal-doc__meta"><strong>Effective date:</strong> 2026-08-21<br><strong>Provider:</strong> George Stephanis ("we", "us", "our")<br><strong>Contact:</strong> daljo628@gmail.com</p>
