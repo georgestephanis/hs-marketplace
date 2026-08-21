@@ -1,109 +1,65 @@
-# HubSpot Extension Marketplace - Custom Promo Card Module
+# HubSpot Asset Marketplace Custom Modules
 
-A premium, learning-focused HubSpot custom module designed to showcase how to build modern, highly custom UI components for the HubSpot Asset Marketplace.
-
-This module is constructed using **modern CSS (back-drop blur, variables, container queries, and `:has()` selectors)** and integrates seamlessly with HubSpot's **fields.json** and **HubL template engine**.
+This repository serves as a workspace for preparing custom modules to offer on the HubSpot Asset Marketplace. It contains premium, learning-focused components illustrating how to connect fields, HTML, CSS, and JS using modern web standards.
 
 ---
 
-## Features
+## Included Modules Index
 
-- **Size-Aware Container Queries**: Automatically scales and shifts layouts (e.g. from stacked card to inline row) depending on the width of the container it's dropped into.
-- **Glassmorphism Backdrop styling**: Modern frosted glass backdrop styling options with color presets, CSS gradient configurations, and opacity sliders.
-- **Interactive States**: Dynamic card glow and float animations on hover.
-- **Dynamic Content Detection**: Employs modern CSS parent styling via `:has()` to automatically change card styling depending on whether Optional Badge elements are present.
-- **Marketplace Standard Layout**: Complies fully with HubSpot's CLI-based local development flow and folder structure.
+We have implemented two highly modular custom components:
 
----
+1. **[Custom Promo Card Module](file:///Users/georgestephanis/code/hs-marketplace/src/custom-promo-card.module/README.md)** (`src/custom-promo-card.module`)
+   - **Purpose**: A visually premium promotional banner card with Glassmorphism, animations, and container queries.
+   - **Key Tech**: Size-aware `@container` layouts, content-adaptive `:has()` styling rules, and theme brand color overrides.
 
-## File Structure
-
-```text
-.
-├── .gitignore
-├── README.md
-└── src/
-    ├── icons/
-    │   └── promo-card-icon.svg         # Custom SVG icon representing the module
-    └── custom-promo-card.module/
-        ├── meta.json                    # Module manifest (labels, content types, icon configuration)
-        ├── fields.json                  # Editor customization fields (Content & Style tabs)
-        ├── module.html                  # HubL template for rendering HTML & scoped CSS
-        ├── module.css                   # Responsive layout stylesheet
-        └── module.js                    # Client-side interactive script
-```
+2. **[Custom Pillbox Input Module](file:///Users/georgestephanis/code/hs-marketplace/src/custom-pillbox-input.module/README.md)** (`src/custom-pillbox-input.module`)
+   - **Purpose**: A front-end interactive tag/chip input element with autocomplete dropdown search and key navigation.
+   - **Key Tech**: Semantic `<select multiple>` backend with event dispatchers, validation shake feedback, and repeater lists suggestions.
 
 ---
 
 ## Local Development Workflow
 
-### 1. Installation & Authentication
+All modules follow a local CMS development workflow via the HubSpot CLI.
 
-Ensure you have the HubSpot CLI installed and authenticated with your developer or sandbox account:
+### 1. Install & Authenticate
+
+Ensure you have the HubSpot CLI installed globally and authenticated:
 
 ```bash
 npm install -g @hubspot/cli
 hs auth
 ```
 
-### 2. Auto-sync (Watch Mode)
+### 2. Auto-Sync on Save (Watch Mode)
 
-Deploy your local edits to your HubSpot account in real time:
+Watch the `src/` directory to deploy local edits to your Design Manager automatically:
 
 ```bash
-hs watch src/ custom-promo-card
+hs watch src/ custom-promo-card-repo
 ```
 
-### 3. Marketplace Validation
+### 3. Prettier Code Formatting
 
-Before submitting the module to the Extension Marketplace, run the built-in validation suite:
+Format files (HTML, CSS, JS, JSON, Markdown) using Prettier + HubL syntax parser plugin:
 
 ```bash
-hs cms module marketplace-validate src/custom-promo-card.module
+npm run format
+```
+
+### 4. Marketplace Validation
+
+Prior to submission, run the built-in validation command on your remote assets to verify compliance:
+
+```bash
+npm run validate
 ```
 
 ---
 
-## Code Walkthrough & Connecting the Dots
+## Tooling & Configuration Details
 
-### The Fields Schema (`fields.json`)
-
-The options shown in the page editor's left sidebar are defined in `fields.json`.
-
-- **Content tab**: Handles texts, rich text elements, and links.
-- **Style tab** (`"tab": "STYLE"`): Groups parameters for background style type, background colors, and border widths, hiding complex design controls from content editors while giving them full brand flexibility.
-
-### Styling with Container Queries (`module.css`)
-
-To support dragging this module into a multi-column sidebar or a full-bleed footer, we define the container:
-
-```css
-.promo-card-wrapper {
-  container-type: inline-size;
-}
-
-@container (min-width: 500px) {
-  .promo-card {
-    flex-direction: row;
-    align-items: center;
-    text-align: left;
-  }
-}
-```
-
-### Scoped styling (`module.html`)
-
-To prevent styles from bleeding into the rest of the page, we wrap CSS variables and overrides inside HubSpot's `scope_css` block:
-
-```html
-{% require_css %}
-<style>
-  {% scope_css %}
-    .promo-card {
-      --card-bg: {{ module.styles.bg_color.css }};
-      --card-text: {{ module.styles.text_color.css }};
-    }
-  {% end_scope_css %}
-</style>
-{% end_require_css %}
-```
+- **[.prettierrc.json](file:///Users/georgestephanis/code/hs-marketplace/.prettierrc.json)**: Runs Prettier configured with the official `@hubspot/prettier-plugin-hubl` plugin.
+- **[.vscode/settings.json](file:///Users/georgestephanis/code/hs-marketplace/.vscode/settings.json)**: Maps HTML and CSS files inside VS Code to the custom `html-hubl` and `css-hubl` syntax highlighting modes.
+- **[.hsignore](file:///Users/georgestephanis/code/hs-marketplace/.hsignore)**: Instructs the HubSpot CLI to ignore all `README.md` documentation files inside module folders so they do not cause upload errors.
+- **[AGENTS.md](file:///Users/georgestephanis/code/hs-marketplace/AGENTS.md)**: Workspace developer guide detailing repository guidelines and available custom skills on this machine.

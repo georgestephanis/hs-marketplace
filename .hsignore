@@ -1,0 +1,2 @@
+# Ignore all README files inside module folders so they do not cause HubSpot CLI upload errors
+**/README.md
