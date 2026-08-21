@@ -75,7 +75,7 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  color: var(--pillbox-text);
+  color: inherit;
   font-size: 0.85rem;
   line-height: 1;
   border: none;
@@ -89,7 +89,7 @@
 
 .custom-pillbox-input__remove-btn:hover {
   opacity: 1;
-  background-color: rgba(var(--pillbox-text-rgb), 0.15);
+  background-color: rgba(128, 128, 128, 0.2);
 }
 
 /* The actual text input field */

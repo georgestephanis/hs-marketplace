@@ -74,6 +74,49 @@ document.addEventListener("DOMContentLoaded", () => {
       return palette[idx];
     }
 
+    function getBgColor(element) {
+      let el = element;
+      while (el) {
+        const bg = window.getComputedStyle(el).backgroundColor;
+        if (bg && bg !== "transparent" && bg !== "rgba(0, 0, 0, 0)") {
+          return bg;
+        }
+        el = el.parentElement;
+      }
+      return "rgb(255, 255, 255)"; // Fallback
+    }
+
+    function parseRgb(colorStr) {
+      const matches = colorStr.match(/\d+(\.\d+)?/g);
+      if (!matches || matches.length < 3) return [255, 255, 255];
+      return [
+        parseFloat(matches[0]),
+        parseFloat(matches[1]),
+        parseFloat(matches[2]),
+      ];
+    }
+
+    function getLuminance(r, g, b) {
+      const a = [r, g, b].map((v) => {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+    }
+
+    function getContrastColor(rgbStr) {
+      const [r_src, g_src, b_src] = parseRgb(rgbStr);
+      const [r_dst, g_dst, b_dst] = parseRgb(getBgColor(container));
+
+      // Blend 15% opacity src over dst background
+      const r_out = Math.round(0.15 * r_src + 0.85 * r_dst);
+      const g_out = Math.round(0.15 * g_src + 0.85 * g_dst);
+      const b_out = Math.round(0.15 * b_src + 0.85 * b_dst);
+
+      const luminance = getLuminance(r_out, g_out, b_out);
+      return luminance > 0.45 ? "#0f172a" : "#ffffff";
+    }
+
     // Store original placeholder to restore it when input is enabled
     textField.setAttribute(
       "data-original-placeholder",
@@ -198,6 +241,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Apply dynamic color variables
         const rgb = getPillRgb(pill);
         pillEl.style.setProperty("--pill-accent-rgb", rgb);
+
+        // Apply WCAG AAA compliant text color based on background luminance
+        pillEl.style.color = getContrastColor(rgb);
 
         const textEl = document.createElement("span");
         textEl.textContent = pill;
