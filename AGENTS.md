@@ -94,6 +94,6 @@ To ensure all custom modules pass the HubSpot Asset Marketplace validator (`hs c
 
 Subsequent agents must utilize the default active CLI account profile linked to George Stephanis:
 
-- **Default Account Profile Name**: `sardonyx`
-- **Account ID**: `246445154`
-- **Verification**: Run `hs account list` to verify the active default pointer is set to `sardonyx`.
+- **Default Account Profile Name**: `george-stephanis`
+- **Account ID**: `247114643`
+- **Verification**: Run `hs account list` to verify the active default pointer is set to `george-stephanis`.

@@ -1,0 +1,40 @@
+<!--
+    templateType: page
+    isAvailableForNewContent: true
+-->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% if content.html_title %}<title>{{ content.html_title }}</title>{% endif %}
+    <meta name="description" content="{{ content.meta_description }}">
+    {% if brand_settings.primaryFavicon.src %}
+      <link rel="shortcut icon" href="{{ brand_settings.primaryFavicon.src }}" />
+    {% endif %}
+    {{ standard_header_includes }}
+  </head>
+  <body>
+    {% dnd_area "dnd_area"
+      label="Main section"
+    %}
+      {% dnd_section
+        vertical_alignment="MIDDLE"
+        max_width=1080
+      %}
+        {% dnd_column %}
+          {% dnd_row %}
+            {% dnd_module
+              path="/src/custom-pillbox-input.module",
+              field_name="custom_pillbox_tags",
+              placeholder_text="Add tags...",
+              max_pills=10,
+              predefined_suggestions=["Marketing", "Sales", "Development", "Design"]
+            %}
+            {% end_dnd_module %}
+          {% end_dnd_row %}
+        {% end_dnd_column %}
+      {% end_dnd_section %}
+    {% end_dnd_area %}
+    {{ standard_footer_includes }}
+  </body>
+</html>
