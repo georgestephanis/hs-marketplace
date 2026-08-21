@@ -2,7 +2,7 @@
 
 ![Promo Card Preview](../../preview/promo-card-preview.png)
 
-A premium, learning-focused HubSpot custom module designed to showcase how to build modern, highly custom UI components for the HubSpot Asset Marketplace. It implements Glassmorphism styling, size-aware container queries, and hover micro-animations.
+A free, GPL-2.0-or-later HubSpot custom module showing how to build modern, highly custom UI components for the HubSpot Asset Marketplace. It implements Glassmorphism styling, size-aware container queries, and hover micro-animations.
 
 ---
 

@@ -30,7 +30,7 @@ An interactive tag/chip selector component designed for front-end website forms.
 4. **Remove Tag Accessibility Label** (`remove_button_label`): Aria screen reader translation for close buttons (default: "Remove").
 5. **No Suggestions Match Text** (`no_matches_text`): Dropdown fallback text when no options match the query (default: "No suggestions found").
 6. **Predefined Auto-Suggest Options** (`predefined_suggestions`): Repeater text list of autocomplete entries.
-7. **Custom Tag Colors** (`custom_colors`): Optional repeated color pickers. If provided, pills will cycle through this custom palette instead of the defaults.
+7. **Custom Tag Colors (CSV)** (`custom_colors_csv`): Optional comma-separated list of hex colors (e.g. `#3b82f6, #a885f7`). If provided, pills cycle through this palette instead of the defaults. Blank entries are ignored. This was previously a repeated color picker; it is a single text field so the module satisfies the marketplace restriction on repeaters (see AGENTS.md §6).
 8. **Form Field Name** (`field_name`): Custom name attribute parameter to prevent selector collision across multiple module instances (default: "custom_pillbox_tags").
 
 ### Style Tab

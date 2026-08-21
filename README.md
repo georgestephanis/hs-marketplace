@@ -14,7 +14,7 @@ We have implemented two highly modular custom components:
 
 2. **[Custom Pillbox Input Module](./src/custom-pillbox-input.module/README.md)** (`src/custom-pillbox-input.module`)
    - **Purpose**: A front-end interactive tag/chip input element with autocomplete dropdown search and key navigation.
-   - **Key Tech**: Semantic `<select multiple>` backend with event dispatchers, validation shake feedback, and repeater lists suggestions.
+   - **Key Tech**: Semantic `<select multiple>` backend with event dispatchers, validation shake feedback, and a configurable suggestion list.
 
 ---
 
@@ -33,10 +33,10 @@ hs auth
 
 ### 2. Auto-Sync on Save (Watch Mode)
 
-Watch the `src/` directory to deploy local edits to your Design Manager automatically:
+Watch the `src/` directory to deploy local edits to your Design Manager automatically. The second argument is the **remote** path, and `--account` names the CLI profile:
 
 ```bash
-hs watch src/ custom-promo-card-repo
+hs watch src src --account=george-stephanis
 ```
 
 ### 3. Prettier Code Formatting
@@ -54,6 +54,41 @@ Prior to submission, run the built-in validation command on your remote assets t
 ```bash
 npm run validate
 ```
+
+---
+
+## Repository Layout
+
+| Path | Contents |
+| --- | --- |
+| `src/custom-pillbox-input.module/` | Tag input module (marketplace offering) |
+| `src/custom-promo-card.module/` | Promo card module (marketplace offering) |
+| `src/icons/` | Module icons referenced by `meta.json` |
+| `src/marketplace-theme/` | CMS theme derived from HubSpot's boilerplate. Not a marketplace offering |
+| `src/legal-pages/` | Page templates for the published Terms and Privacy pages |
+| `src/landing-pages/` | Site landing page and the Pillbox settings guide |
+| `Pillbox.html` | Page template behind the `/pillbox-demo` page |
+| `preview/` | Standalone HTML harnesses for developing modules outside HubSpot |
+| `scripts/` | Build tooling. Not uploaded to HubSpot |
+
+Local paths under `src/` mirror their Design Manager paths, so `hs cms upload src/<x> src/<x>` round-trips cleanly.
+
+### Published pages
+
+`hubspot.stephanis.me` serves `/pillbox-demo`, `/terms-of-service`, and `/privacy-policy`. The templates in `src/landing-pages/` are uploaded but not yet published.
+
+Page creation over the API returns `403 MISSING_SCOPES` on this portal — see AGENTS.md for the details. Upload the template with the CLI, then create and publish the page in the HubSpot UI.
+
+### Regenerating the legal pages
+
+`TERMS-OF-SERVICE.md` and `PRIVACY-POLICY.md` are the source of truth. After editing either:
+
+```bash
+python3 scripts/build-legal-pages.py
+hs cms upload src/legal-pages src/legal-pages --account=george-stephanis
+```
+
+The generated templates intentionally omit maintainer-facing notes present in the Markdown; the script's docstring lists exactly what it strips.
 
 ---
 
@@ -79,4 +114,4 @@ compatible with GPLv3 but not GPLv2, so the theme carries
 - **[.prettierrc.json](./.prettierrc.json)**: Runs Prettier configured with the official `@hubspot/prettier-plugin-hubl` plugin.
 - **[.vscode/settings.json](./.vscode/settings.json)**: Maps HTML and CSS files inside VS Code to the custom `html-hubl` and `css-hubl` syntax highlighting modes.
 - **[.hsignore](./.hsignore)**: Instructs the HubSpot CLI to skip repository files that are not CMS assets — documentation, licence texts, the local preview harness, tooling config, and editor cruft — so they are never uploaded to the Design Manager.
-- **[AGENTS.md](./AGENTS.md)**: Workspace developer guide detailing repository guidelines and available custom skills on this machine.
+- **[AGENTS.md](./AGENTS.md)**: Workspace developer guide — marketplace validator rules, the configured account, and the portal's API scope ceiling.
