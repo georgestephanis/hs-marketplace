@@ -1,6 +1,6 @@
 # Custom Pillbox Input Module
 
-![Pillbox Input Preview](./preview.png)
+![Pillbox Input Preview](../../preview/pillbox-preview.png)
 
 An interactive tag/chip selector component designed for front-end website forms. It allows users to type custom tags (with Enter/Comma creation) or pick from auto-suggested options, rendering selections as interactive removable pills.
 

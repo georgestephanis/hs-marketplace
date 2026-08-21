@@ -142,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       activePills.forEach((pill, idx) => {
         const pillEl = document.createElement("span");
         pillEl.className = "custom-pillbox-input__pill";
+        pillEl.setAttribute("data-value", pill);
 
         const textEl = document.createElement("span");
         textEl.textContent = pill;
@@ -172,6 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
         selectField.appendChild(option);
       });
       selectField.dispatchEvent(new Event("change", { bubbles: true }));
+
+      // Set data-pill-count on the main container
+      container.setAttribute("data-pill-count", activePills.length);
     }
 
     // Filter autocomplete dropdown options
