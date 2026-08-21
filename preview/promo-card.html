@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Promo Card Preview</title>
+  <link rel="stylesheet" href="../src/custom-promo-card.module/module.css">
+  <style>
+    body {
+      background-color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+    
+    /* Simulate container query context */
+    .preview-wrapper {
+      width: 100%;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-wrapper">
+    <!-- Scoped style overrides mimicking HubL render output -->
+    <div class="custom-promo-card-container" style="
+      --primary-accent: #3b82f6;
+      --primary-accent-rgb: 59, 130, 246;
+      --text-color: #ffffff;
+      --text-color-rgb: 255, 255, 255;
+      --card-bg: rgba(15, 23, 42, 0.45);
+      --card-border: rgba(59, 130, 246, 0.3);
+      --card-backdrop: blur(16px) saturate(180%);
+    ">
+      <article class="custom-promo-card">
+        <span class="custom-promo-card__badge">FEATURED</span>
+        <div class="custom-promo-card__main">
+          <h2 class="custom-promo-card__title">Experience Antigravity</h2>
+          <div class="custom-promo-card__body">
+            <h3>Transform your workflows</h3>
+            <p>Build custom UI components that stand out using cutting-edge CSS layouts, animations, and typography.</p>
+          </div>
+        </div>
+        <div class="custom-promo-card__actions">
+          <a class="custom-promo-card__button" href="https://example.com" target="_blank">
+            Get Started
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script src="../src/custom-promo-card.module/module.js"></script>
+</body>
+</html>

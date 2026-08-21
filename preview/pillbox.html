@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Pillbox Input Preview</title>
+  <link rel="stylesheet" href="../src/custom-pillbox-input.module/module.css">
+  <style>
+    body {
+      background-color: #0f172a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      box-sizing: border-box;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    
+    .preview-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2.5rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-card">
+    <h1>Custom Pillbox Selector</h1>
+    <form id="preview-form" onsubmit="event.preventDefault(); alert('Submitting tags: ' + this.custom_pillbox_tags.value);">
+      <label for="tags-field">Select Skills & Technologies</label>
+      
+      <!-- Scoped style overrides mimicking HubL render output -->
+      <div class="custom-pillbox-input-container" data-max-pills="5" style="
+        --pillbox-accent: #3b82f6;
+        --pillbox-accent-rgb: 59, 130, 246;
+        --text-color: #ffffff;
+        --text-color-rgb: 255, 255, 255;
+        --pillbox-bg: rgba(15, 23, 42, 0.45);
+        --pillbox-border: rgba(59, 130, 246, 0.25);
+        --pillbox-backdrop: blur(12px) saturate(160%);
+      ">
+        <div class="custom-pillbox-input__box">
+          <div class="custom-pillbox-input__pills-wrapper"></div>
+          <input type="text" 
+                 id="tags-field"
+                 class="custom-pillbox-input__text-field" 
+                 placeholder="Type tags (e.g. Node, React)..."
+                 autocomplete="off">
+        </div>
+        
+        <div class="custom-pillbox-input__suggestions-dropdown" style="display: none;">
+          <ul class="custom-pillbox-input__suggestions-list">
+            <li class="custom-pillbox-input__suggestion-item" data-value="Marketing">Marketing</li>
+            <li class="custom-pillbox-input__suggestion-item" data-value="Sales">Sales</li>
+            <li class="custom-pillbox-input__suggestion-item" data-value="Development">Development</li>
+            <li class="custom-pillbox-input__suggestion-item" data-value="Design">Design</li>
+          </ul>
+        </div>
+        
+        <select name="custom_pillbox_tags" 
+                class="custom-pillbox-input__select-field" 
+                multiple 
+                style="display: none;">
+        </select>
+      </div>
+      
+      <button type="submit" style="
+        margin-top: 1.5rem;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.25rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.2s;
+      " onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
+        Submit Tags
+      </button>
+    </form>
+  </div>
+
+  <script src="../src/custom-pillbox-input.module/module.js"></script>
+</body>
+</html>

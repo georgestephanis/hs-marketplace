@@ -1,5 +1,7 @@
 # Custom Promo Card Module
 
+![Promo Card Preview](./preview.png)
+
 A premium, learning-focused HubSpot custom module designed to showcase how to build modern, highly custom UI components for the HubSpot Asset Marketplace. It implements Glassmorphism styling, size-aware container queries, and hover micro-animations.
 
 ---
