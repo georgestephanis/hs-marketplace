@@ -1,0 +1,105 @@
+<!--
+    templateType: page
+    isAvailableForNewContent: true
+-->
+<!doctype html>
+<html lang="{{ html_lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if content.html_title %}{{ content.html_title }}{% else %}Privacy Policy{% endif %}</title>
+    <meta name="description" content="{{ content.meta_description }}">
+    {% if brand_settings.primaryFavicon.src %}
+      <link rel="shortcut icon" href="{{ brand_settings.primaryFavicon.src }}" />
+    {% endif %}
+    {{ standard_header_includes }}
+    {% require_css %}
+      <style>
+        .legal-doc {
+          --ink: #1f2937; --muted: #6b7280; --rule: #e5e7eb; --accent: #1d4ed8;
+          max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 5rem;
+          color: var(--ink); line-height: 1.65;
+          font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
+        .legal-doc h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 1.5rem; letter-spacing: -0.02em; }
+        .legal-doc h2 { font-size: 1.15rem; margin: 2.75rem 0 0.75rem; padding-top: 1.25rem;
+                        border-top: 1px solid var(--rule); letter-spacing: -0.01em; }
+        .legal-doc h2:first-of-type { border-top: 0; padding-top: 0; }
+        .legal-doc p, .legal-doc li { font-size: 1rem; }
+        .legal-doc ul { padding-left: 1.25rem; }
+        .legal-doc li { margin-bottom: 0.4rem; }
+        .legal-doc a { color: var(--accent); }
+        .legal-doc code { background: #f3f4f6; padding: 0.1em 0.35em;
+                          border-radius: 4px; font-size: 0.9em; }
+        .legal-doc .table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+        .legal-doc table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+        .legal-doc th, .legal-doc td { border: 1px solid var(--rule);
+                                       padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; }
+        .legal-doc th { background: #f9fafb; font-weight: 600; }
+        .legal-doc blockquote { margin: 1.25rem 0; padding: 0.75rem 1rem;
+                                border-left: 3px solid var(--accent); background: #f8fafc; }
+        .legal-doc blockquote p { margin: 0; }
+        .legal-doc__meta { color: var(--muted); font-size: 0.95rem; }
+        @media (prefers-color-scheme: dark) {
+          .legal-doc { --ink: #e5e7eb; --muted: #9ca3af; --rule: #374151; --accent: #93b4fd; }
+          .legal-doc code { background: #1f2937; }
+          .legal-doc th { background: #1f2937; }
+          .legal-doc blockquote { background: #111827; }
+        }
+      </style>
+    {% end_require_css %}
+  </head>
+  <body>
+    <main class="legal-doc">
+      <h1>Privacy Policy</h1>
+      <p class="legal-doc__meta"><strong>Effective date:</strong> 2026-08-21<br><strong>Provider:</strong> George Stephanis ("we", "us", "our")<br><strong>Contact:</strong> daljo628@gmail.com</p>
+      <h2>1. Who this policy covers</h2>
+      <p>This policy explains how personal data is handled in connection with our HubSpot Asset Marketplace offerings: the <strong>Custom Pillbox Input</strong> module and the <strong>Custom Promo Card</strong> module (each an "Asset").</p>
+      <p>It distinguishes two very different groups:</p>
+      <ul><li><strong>Customers</strong> — HubSpot users who install an Asset into a portal.</li><li><strong>Visitors</strong> — end users who browse a website built with an Asset.</li></ul>
+      <h2>2. What the Assets collect</h2>
+      <p class="legal-doc__meta"><strong>The Assets do not collect, transmit, or store personal data.</strong></p>
+      <p>Every Asset is composed solely of HubL templates, CSS, and client-side JavaScript that executes in the visitor's browser. As implemented in this repository, the Asset code contains:</p>
+      <ul><li>no outbound network requests (no <code>fetch</code>, no <code>XMLHttpRequest</code>);</li><li>no cookies, <code>localStorage</code>, or <code>sessionStorage</code> writes;</li><li>no analytics, telemetry, fingerprinting, session recording, or advertising code; and</li><li>no third-party scripts, pixels, tags, or remotely hosted assets loaded at runtime.</li></ul>
+      <p>We operate no server-side component and receive no data from your website or your visitors.</p>
+      <p>HubSpot's Template Marketplace Policies permit removal of templates that track users without informed, explicit opt-in consent. We do not track visitors at all, so no consent mechanism is required by the Assets themselves.</p>
+      <p>Because the Assets are GPL-licensed, you are free to modify them — including to add tracking. <strong>Any tracking, cookie, storage, or third-party script you add becomes your responsibility</strong>, and the claims in this section then describe only our unmodified distribution, not your copy.</p>
+      <h2>3. Form input handled by the Custom Pillbox Input module</h2>
+      <p>The Custom Pillbox Input module deserves specific mention because it is an input control.</p>
+      <p>The module renders a native <code>&lt;select multiple&gt;</code> element whose <code>name</code> attribute you configure (default: <code>custom_pillbox_tags</code>). Tags a visitor selects are written into that element <strong>in the browser</strong>. If you place the module inside a form, those values are submitted along with the rest of that form.</p>
+      <p>Where those values go is determined entirely by <strong>your</strong> form and <strong>your</strong> portal — typically to HubSpot as CRM or submission data. They never reach us. Consequently:</p>
+      <ul><li><strong>You</strong> are the data controller for anything collected through a form containing this module.</li><li><strong>You</strong> are responsible for the lawful basis, notice, and consent covering that collection, and for reflecting it in your own site privacy notice.</li><li>If visitors can type free-text tags, they may enter personal data into the field. Configure the module — and your form's notices — accordingly.</li></ul>
+      <h2>4. Data we process as a business</h2>
+      <p>Although the Assets themselves collect nothing, we do process limited personal data in running our business:</p>
+      <div class="table-wrap"><table>
+      <thead><tr><th>Purpose</th><th>Data</th><th>Source</th><th>Lawful basis</th></tr></thead><tbody>
+      <tr><td>Responding to support requests</td><td>Name, email, message content, portal details you choose to share</td><td>You, by contacting us</td><td>Contract / legitimate interests</td></tr>
+      <tr><td>Marketplace transactions</td><td>Purchase and installation records, billing identifiers</td><td>HubSpot</td><td>Contract / legitimate interests</td></tr>
+      <tr><td>Legal and accounting records</td><td>Transaction records</td><td>HubSpot</td><td>Legal obligation</td></tr>
+      </tbody></table></div>
+      <p>We do not sell personal data, and we do not use support correspondence for marketing without separate consent.</p>
+      <h2>5. Processors and disclosures</h2>
+      <p>We rely on:</p>
+      <ul><li><strong>HubSpot, Inc.</strong> — marketplace distribution, purchase records, and installation data. See the <a href="https://legal.hubspot.com/privacy-policy" rel="noopener">HubSpot Privacy Policy</a>.</li><li><strong>Google LLC (Gmail)</strong> — hosts the mailbox that receives support correspondence. This is a personal, non-corporate Gmail account.</li></ul>
+      <p>We may also disclose data where required by law, or in connection with a merger or acquisition.</p>
+      <h2>6. International transfers</h2>
+      <p>We are based in the United States, and personal data you send us is processed there. Where personal data is transferred outside your jurisdiction, we rely on appropriate safeguards such as Standard Contractual Clauses.</p>
+      <h2>7. Retention</h2>
+      <p>Support correspondence is retained for <code>24 months</code>. Transaction and accounting records are retained for as long as required by applicable law. Because the Assets store nothing, there is no Asset-held data to retain or delete.</p>
+      <h2>8. Your rights</h2>
+      <p>Depending on where you live, you may have the right to access, correct, delete, port, or restrict processing of your personal data, to object to processing, and to withdraw consent. Exercise these rights by contacting <code>daljo628@gmail.com</code>; we respond within the period required by applicable law.</p>
+      <p>Requests about data collected through <strong>your</strong> website — including tags submitted via the Custom Pillbox Input module — must be directed to the operator of that website, not to us.</p>
+      <p>If you are in the EEA or UK you may also lodge a complaint with your local supervisory authority. The Assets are offered free of charge and we do not market or target them to any particular territory, the EEA and UK included, so we have not appointed an Article 27 representative.</p>
+      <h2>9. Children</h2>
+      <p>The Assets are developer tools and are not directed at children. We do not knowingly process personal data from children.</p>
+      <h2>10. How to verify these claims</h2>
+      <p>The Assets are free software, distributed under the GNU General Public License. You do not have to take section 2 on trust: the complete source of each Asset is available to you, and you are free to inspect it for network requests, cookies, storage writes, or tracking code. Neither Asset references an external URL at render time.</p>
+      <p>If a future release introduces any such behaviour, sections 2 and 3 of this policy will be updated before that release ships.</p>
+      <h2>11. Changes to this policy</h2>
+      <p>We may update this policy. Material changes will be reflected in the effective date above and published at the Privacy Policy URL on our marketplace listing.</p>
+      <h2>12. Contact</h2>
+      <p class="legal-doc__meta">George Stephanis<br>217 East Market Street, Marietta, PA 17547, USA<br>daljo628@gmail.com</p>
+    </main>
+    {{ standard_footer_includes }}
+  </body>
+</html>
