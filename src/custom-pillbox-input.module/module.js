@@ -20,8 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const list = container.querySelector(
       ".custom-pillbox-input__suggestions-list",
     );
-    const hiddenField = container.querySelector(
-      ".custom-pillbox-input__hidden-field",
+    const selectField = container.querySelector(
+      ".custom-pillbox-input__select-field",
     );
 
     const maxPills = parseInt(
@@ -162,8 +162,16 @@ document.addEventListener("DOMContentLoaded", () => {
         pillsWrapper.appendChild(pillEl);
       });
 
-      // Update the hidden input field value for form integration
-      hiddenField.value = activePills.join(",");
+      // Update the select element options for form integration and trigger change events
+      selectField.innerHTML = "";
+      activePills.forEach((pill) => {
+        const option = document.createElement("option");
+        option.value = pill;
+        option.selected = true;
+        option.textContent = pill;
+        selectField.appendChild(option);
+      });
+      selectField.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
     // Filter autocomplete dropdown options

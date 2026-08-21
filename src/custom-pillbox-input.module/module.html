@@ -50,11 +50,13 @@
     </ul>
   </div>
 
-  {# Hidden input for standard HTML form submission #}
-  <input
-    type="hidden"
+  {# Semantic select multiple element for form integration and progressive enhancement #}
+  <select
     name="custom_pillbox_tags"
-    class="custom-pillbox-input__hidden-field"
-    value=""
-  />
+    class="custom-pillbox-input__select-field"
+    multiple
+    style="display: none"
+  >
+    {# Option elements will be dynamically appended here by JS #}
+  </select>
 </div>
