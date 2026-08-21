@@ -25,6 +25,39 @@
     "default": 10
   },
   {
+    "id": "limit_reached_text",
+    "name": "limit_reached_text",
+    "label": "Limit Reached Alert Text",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "Limit reached"
+  },
+  {
+    "id": "remove_button_label",
+    "name": "remove_button_label",
+    "label": "Remove Tag Accessibility Label",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "Remove"
+  },
+  {
+    "id": "no_matches_text",
+    "name": "no_matches_text",
+    "label": "No Suggestions Match Text",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "No suggestions found"
+  },
+  {
     "id": "predefined_suggestions",
     "name": "predefined_suggestions",
     "label": "Predefined Auto-Suggest Options",

@@ -27,6 +27,9 @@
   class="custom-pillbox-input-container"
   data-max-pills="{{ module.max_pills|escape_attr }}"
   data-custom-colors='[{% for color_field in module.custom_colors %}"{{ color_field.color|escape_attr }}"{% if not loop.last %},{% endif %}{% endfor %}]'
+  data-limit-reached-text="{{ module.limit_reached_text|escape_attr }}"
+  data-remove-button-label="{{ module.remove_button_label|escape_attr }}"
+  data-no-matches-text="{{ module.no_matches_text|escape_attr }}"
 >
   {# The interactive input area #}
   <div class="custom-pillbox-input__box">

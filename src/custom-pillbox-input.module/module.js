@@ -122,6 +122,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return luminance > 0.45 ? "#0f172a" : "#ffffff";
     }
 
+    const limitReachedText =
+      container.getAttribute("data-limit-reached-text") || "Limit reached";
+    const removeBtnLabel =
+      container.getAttribute("data-remove-button-label") || "Remove";
+    const noMatchesText =
+      container.getAttribute("data-no-matches-text") || "No suggestions found";
+
     // Store original placeholder to restore it when input is enabled
     textField.setAttribute(
       "data-original-placeholder",
@@ -257,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
         removeBtn.type = "button";
         removeBtn.className = "custom-pillbox-input__remove-btn";
         removeBtn.innerHTML = "&times;";
-        removeBtn.setAttribute("aria-label", `Remove ${pill}`);
+        removeBtn.setAttribute("aria-label", `${removeBtnLabel} ${pill}`);
 
         removeBtn.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -286,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Disable/enable input and modify placeholder when limit is reached
       if (activePills.length >= maxPills) {
         textField.disabled = true;
-        textField.placeholder = "Limit reached";
+        textField.placeholder = limitReachedText;
         hideDropdown();
       } else {
         textField.disabled = false;
@@ -308,7 +315,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (available.length === 0) {
-        hideDropdown();
+        list.innerHTML = "";
+        const li = document.createElement("li");
+        li.className = "custom-pillbox-input__no-matches";
+        li.textContent = noMatchesText;
+        list.appendChild(li);
+        showDropdown();
         return;
       }
 
