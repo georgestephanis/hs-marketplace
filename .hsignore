@@ -1,2 +1,41 @@
-# Ignore all README files inside module folders so they do not cause HubSpot CLI upload errors
-**/README.md
+# .hsignore — files the HubSpot CLI must never upload to the Design Manager.
+#
+# The CLI does NOT read .gitignore or the global git ignore file, so anything
+# excluded from git still needs listing here. Uploading a non-CMS file into a
+# .module directory fails with an "Unknown store" error, so this list is what
+# keeps `hs cms upload` working from the repository root.
+
+# --- Documentation -----------------------------------------------------------
+# Module READMEs live beside the module they document and would otherwise be
+# uploaded into the .module folder itself.
+*.md
+
+# --- Licence texts -----------------------------------------------------------
+# Note: src/marketplace-theme/license.txt is deliberately NOT ignored, since
+# theme.json references it via its "license" property and it must ship.
+/LICENSE
+/LICENSE-GPL-2.0.txt
+
+# --- Local preview harness ---------------------------------------------------
+# Standalone HTML pages plus screenshots used to develop modules outside HubSpot.
+/preview/
+
+# --- Machine-generated logs --------------------------------------------------
+*.jsonl
+*.log
+
+# --- Node tooling ------------------------------------------------------------
+/node_modules/
+/package.json
+/package-lock.json
+/.prettierrc.json
+
+# --- Editor and agent state --------------------------------------------------
+/.vscode/
+/.serena/
+/.idea/
+/.continue/
+
+# --- OS cruft ----------------------------------------------------------------
+.DS_Store
+Thumbs.db

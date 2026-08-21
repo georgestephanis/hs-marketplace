@@ -1,6 +1,6 @@
 # HubSpot Asset Marketplace Custom Modules
 
-This repository serves as a workspace for preparing custom modules to offer on the HubSpot Asset Marketplace. It contains premium, learning-focused components illustrating how to connect fields, HTML, CSS, and JS using modern web standards.
+This repository serves as a workspace for preparing custom modules to offer on the HubSpot Asset Marketplace. It contains free, GPL-licensed components illustrating how to connect fields, HTML, CSS, and JS using modern web standards.
 
 ---
 
@@ -9,7 +9,7 @@ This repository serves as a workspace for preparing custom modules to offer on t
 We have implemented two highly modular custom components:
 
 1. **[Custom Promo Card Module](./src/custom-promo-card.module/README.md)** (`src/custom-promo-card.module`)
-   - **Purpose**: A visually premium promotional banner card with Glassmorphism, animations, and container queries.
+   - **Purpose**: A polished promotional banner card with Glassmorphism, animations, and container queries.
    - **Key Tech**: Size-aware `@container` layouts, content-adaptive `:has()` styling rules, and theme brand color overrides.
 
 2. **[Custom Pillbox Input Module](./src/custom-pillbox-input.module/README.md)** (`src/custom-pillbox-input.module`)
@@ -57,9 +57,26 @@ npm run validate
 
 ---
 
+## Licensing
+
+Both modules are original works licensed **GPL-2.0-or-later**, and are offered
+free of charge on the HubSpot Asset Marketplace.
+
+The CMS theme under `src/marketplace-theme/` is derived from the HubSpot CMS
+Theme Boilerplate (Apache-2.0, Copyright 2020 HubSpot, Inc.). Apache-2.0 is
+compatible with GPLv3 but not GPLv2, so the theme carries
+**GPL-3.0-or-later**. The theme is not offered on the marketplace.
+
+- **[LICENSE](./LICENSE)** — GNU GPL v3 text
+- **[LICENSE-GPL-2.0.txt](./LICENSE-GPL-2.0.txt)** — GNU GPL v2 text
+- **[TERMS-OF-SERVICE.md](./TERMS-OF-SERVICE.md)** — listing Terms of Service
+- **[PRIVACY-POLICY.md](./PRIVACY-POLICY.md)** — listing Privacy Policy
+
+---
+
 ## Tooling & Configuration Details
 
 - **[.prettierrc.json](./.prettierrc.json)**: Runs Prettier configured with the official `@hubspot/prettier-plugin-hubl` plugin.
 - **[.vscode/settings.json](./.vscode/settings.json)**: Maps HTML and CSS files inside VS Code to the custom `html-hubl` and `css-hubl` syntax highlighting modes.
-- **[.hsignore](./.hsignore)**: Instructs the HubSpot CLI to ignore all `README.md` documentation files inside module folders so they do not cause upload errors.
+- **[.hsignore](./.hsignore)**: Instructs the HubSpot CLI to skip repository files that are not CMS assets — documentation, licence texts, the local preview harness, tooling config, and editor cruft — so they are never uploaded to the Design Manager.
 - **[AGENTS.md](./AGENTS.md)**: Workspace developer guide detailing repository guidelines and available custom skills on this machine.
