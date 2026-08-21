@@ -1,0 +1,247 @@
+// HubSpot Module: Custom Pillbox Input
+// Manages pill/tag creation, deletions, auto-suggestions, and form synchronization.
+
+document.addEventListener("DOMContentLoaded", () => {
+  const containers = document.querySelectorAll(
+    ".custom-pillbox-input-container",
+  );
+
+  containers.forEach((container) => {
+    const box = container.querySelector(".custom-pillbox-input__box");
+    const pillsWrapper = container.querySelector(
+      ".custom-pillbox-input__pills-wrapper",
+    );
+    const textField = container.querySelector(
+      ".custom-pillbox-input__text-field",
+    );
+    const dropdown = container.querySelector(
+      ".custom-pillbox-input__suggestions-dropdown",
+    );
+    const list = container.querySelector(
+      ".custom-pillbox-input__suggestions-list",
+    );
+    const hiddenField = container.querySelector(
+      ".custom-pillbox-input__hidden-field",
+    );
+
+    const maxPills = parseInt(
+      container.getAttribute("data-max-pills") || "10",
+      10,
+    );
+
+    // Store all initial suggestions from the HubL list
+    const originalSuggestions = Array.from(
+      container.querySelectorAll(".custom-pillbox-input__suggestion-item"),
+    ).map((item) => ({
+      value: item.getAttribute("data-value") || "",
+      text: item.textContent.trim(),
+    }));
+
+    let activePills = [];
+    let focusedSuggestionIndex = -1;
+
+    // Focus the text field when clicking anywhere inside the input box boundary
+    box.addEventListener("click", (e) => {
+      if (
+        e.target !== textField &&
+        !e.target.closest(".custom-pillbox-input__pill")
+      ) {
+        textField.focus();
+      }
+    });
+
+    textField.addEventListener("focus", () => {
+      container.classList.add("is-focused");
+      filterSuggestions();
+    });
+
+    textField.addEventListener("blur", () => {
+      // Small timeout to allow click actions on dropdown suggestions to fire first
+      setTimeout(() => {
+        container.classList.remove("is-focused");
+        hideDropdown();
+      }, 200);
+    });
+
+    // Keystroke handlers on text input
+    textField.addEventListener("keydown", (e) => {
+      const value = textField.value.trim();
+
+      if (e.key === "Enter" || e.key === ",") {
+        e.preventDefault();
+
+        // If there's an active suggestion focused via arrows, add that instead
+        if (focusedSuggestionIndex >= 0 && dropdown.style.display !== "none") {
+          const visibleItems = dropdown.querySelectorAll(
+            ".custom-pillbox-input__suggestion-item",
+          );
+          if (visibleItems[focusedSuggestionIndex]) {
+            addPill(
+              visibleItems[focusedSuggestionIndex].getAttribute("data-value"),
+            );
+            return;
+          }
+        }
+
+        // Otherwise, add what is typed
+        if (value) {
+          addPill(value);
+        }
+      } else if (e.key === "Backspace" && !textField.value) {
+        // Remove the last pill if input is empty
+        if (activePills.length > 0) {
+          removePill(activePills.length - 1);
+        }
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        navigateSuggestions(1);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        navigateSuggestions(-1);
+      } else if (e.key === "Escape") {
+        hideDropdown();
+      }
+    });
+
+    textField.addEventListener("input", () => {
+      filterSuggestions();
+    });
+
+    // Add a pill to the selection
+    function addPill(value) {
+      const cleanValue = value.replace(/,/g, "").trim();
+      if (!cleanValue) return;
+
+      // Validation checks
+      if (activePills.includes(cleanValue)) {
+        shakeInput();
+        return;
+      }
+      if (activePills.length >= maxPills) {
+        shakeInput();
+        return;
+      }
+
+      activePills.push(cleanValue);
+      textField.value = "";
+      renderPills();
+      filterSuggestions();
+    }
+
+    // Remove a pill by index
+    function removePill(index) {
+      activePills.splice(index, 1);
+      renderPills();
+      filterSuggestions();
+    }
+
+    // Render the active tag chips in the UI
+    function renderPills() {
+      pillsWrapper.innerHTML = "";
+
+      activePills.forEach((pill, idx) => {
+        const pillEl = document.createElement("span");
+        pillEl.className = "custom-pillbox-input__pill";
+
+        const textEl = document.createElement("span");
+        textEl.textContent = pill;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "custom-pillbox-input__remove-btn";
+        removeBtn.innerHTML = "&times;";
+        removeBtn.setAttribute("aria-label", `Remove ${pill}`);
+
+        removeBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          removePill(idx);
+        });
+
+        pillEl.appendChild(textEl);
+        pillEl.appendChild(removeBtn);
+        pillsWrapper.appendChild(pillEl);
+      });
+
+      // Update the hidden input field value for form integration
+      hiddenField.value = activePills.join(",");
+    }
+
+    // Filter autocomplete dropdown options
+    function filterSuggestions() {
+      const query = textField.value.toLowerCase().trim();
+
+      // Exclude values that are already active pills
+      const available = originalSuggestions.filter((item) => {
+        return (
+          !activePills.includes(item.value) &&
+          (!query || item.value.toLowerCase().includes(query))
+        );
+      });
+
+      if (available.length === 0) {
+        hideDropdown();
+        return;
+      }
+
+      // Render suggestion elements
+      list.innerHTML = "";
+      focusedSuggestionIndex = -1;
+
+      available.forEach((item, idx) => {
+        const li = document.createElement("li");
+        li.className = "custom-pillbox-input__suggestion-item";
+        li.setAttribute("data-value", item.value);
+        li.textContent = item.text;
+
+        li.addEventListener("mousedown", (e) => {
+          e.preventDefault(); // Prevent text field blur
+          addPill(item.value);
+        });
+
+        list.appendChild(li);
+      });
+
+      showDropdown();
+    }
+
+    // Navigate suggestion options via arrow keys
+    function navigateSuggestions(direction) {
+      const items = list.querySelectorAll(
+        ".custom-pillbox-input__suggestion-item",
+      );
+      if (items.length === 0) return;
+
+      if (focusedSuggestionIndex >= 0) {
+        items[focusedSuggestionIndex].classList.remove("is-active");
+      }
+
+      focusedSuggestionIndex += direction;
+
+      if (focusedSuggestionIndex >= items.length) {
+        focusedSuggestionIndex = 0;
+      } else if (focusedSuggestionIndex < 0) {
+        focusedSuggestionIndex = items.length - 1;
+      }
+
+      items[focusedSuggestionIndex].classList.add("is-active");
+      items[focusedSuggestionIndex].scrollIntoView({ block: "nearest" });
+    }
+
+    function showDropdown() {
+      dropdown.style.display = "block";
+    }
+
+    function hideDropdown() {
+      dropdown.style.display = "none";
+      focusedSuggestionIndex = -1;
+    }
+
+    // Simple visual error feedback (shake input box)
+    function shakeInput() {
+      box.classList.add("shake");
+      setTimeout(() => {
+        box.classList.remove("shake");
+      }, 500);
+    }
+  });
+});
