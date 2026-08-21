@@ -75,3 +75,15 @@ To ensure all custom modules pass the HubSpot Asset Marketplace validator (`hs c
   2. Upload to the portal using: `hs cms upload src/<module-name>.module src/<module-name>.module`
   3. Fetch the files back down: `hs cms fetch src/<module-name>.module src/<module-name>.module --overwrite`
   4. Commit the fetched files. This pulls down server-assigned properties (like `module_id`) and Jackson-style JSON formatting automatically, keeping Git logs clean.
+
+### 6. Style Tab Repeater Restrictions
+
+- **Rule**: Repeater fields (any field containing `occurrence` configurations, such as custom text or color list repeaters) **MUST NOT** be placed inside the `styles` children list or configured with `"tab": "STYLE"`.
+- **Reason**: The HubSpot CMS compiler strictly forbids repeater fields inside the design style tab. Attempting to upload them will trigger validation failures.
+- **Solution**: Place all repeaters in the default `CONTENT` tab. Expose styling controls as content variables instead.
+
+### 7. Non-Module File Isolation (`.hsignore`)
+
+- **Rule**: Do not commit or co-locate non-standard module files (e.g. `README.md`, `.png` preview screenshots, mock files) inside the `.module` directory without registering them or ignoring them.
+- **Reason**: The HubSpot CLI upload command will fail with `Unknown file type for module file <name>`.
+- **Solution**: Always store screenshots and mock files in parent directories (like `preview/`), and add a project-root `.hsignore` rule (e.g. `**/README.md`) to ignore documentation files inside `.module` folders on upload and watch.
