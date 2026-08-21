@@ -9,5 +9,7 @@
   "devDependencies": {
     "@hubspot/prettier-plugin-hubl": "^0.3.8",
     "prettier": "^3.0.0"
-  }
+  },
+  "license": "GPL-3.0-or-later",
+  "author": "George Stephanis <daljo628@gmail.com> (https://hubspot.stephanis.me)"
 }

@@ -1,3 +1,42 @@
-Add the license for your theme here.
+This theme is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
-To add a license to your theme you can either use a valid SPDX identifier (https://spdx.org/licenses/) for the license property in your theme.json file or you can update this file with your license as the license property in theme.json is already using the relative path option to link to this license file. For more information on the license property please reference this article (https://developers.hubspot.com/docs/cms/building-blocks/themes#theme-json).
+This theme is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this theme. If not, see <https://www.gnu.org/licenses/>.
+
+SPDX-License-Identifier: GPL-3.0-or-later
+Copyright (C) 2026 George Stephanis
+
+
+-------------------------------------------------------------------------------
+UPSTREAM ATTRIBUTION
+-------------------------------------------------------------------------------
+
+This theme is derived from the HubSpot CMS Theme Boilerplate:
+
+    Copyright 2020 HubSpot, Inc.
+    Licensed under the Apache License, Version 2.0
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Portions of this theme have been modified from the original boilerplate,
+including the addition of the Custom Pillbox Input and Custom Promo Card
+modules and changes to templates, sections, and styling.
+
+Apache-2.0 is compatible with GPLv3 but not with GPLv2, which is why this
+theme is licensed GPL-3.0-or-later rather than GPL-2.0-or-later. The Apache
+License 2.0 notice above is retained as that licence requires.
+
+-------------------------------------------------------------------------------
+BUNDLED MODULES
+-------------------------------------------------------------------------------
+
+The Custom Pillbox Input and Custom Promo Card modules are original works
+licensed GPL-2.0-or-later. Distributed as part of this theme they are conveyed
+under GPL-3.0-or-later via the "or later" option; obtained standalone from the
+HubSpot Asset Marketplace, GPL-2.0-or-later applies.
