@@ -1,0 +1,223 @@
+<!--
+    templateType: page
+    isAvailableForNewContent: true
+-->
+<!doctype html>
+<html lang="{{ html_lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if content.html_title %}{{ content.html_title }}{% else %}George Stephanis — HubSpot CMS Modules{% endif %}</title>
+    <meta name="description" content="{{ content.meta_description }}">
+    {% if brand_settings.primaryFavicon.src %}
+      <link rel="shortcut icon" href="{{ brand_settings.primaryFavicon.src }}" />
+    {% endif %}
+    {{ standard_header_includes }}
+    {% require_css %}
+      <style>
+        body.hub-home {
+          background-color: #0f172a; color: #e5e7eb; margin: 0;
+          font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+          line-height: 1.65;
+        }
+        .hub { max-width: 52rem; margin: 0 auto; padding: 4rem 1.25rem 5rem; }
+        .hub a { color: #93b4fd; }
+        .hub a:hover { color: #c7d8ff; }
+
+        .hub-hero { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+        .hub-hero__avatar {
+          width: 88px; height: 88px; border-radius: 50%; flex: none;
+          border: 1px solid #334155; background: #1e293b; object-fit: cover;
+        }
+        .hub-hero__name { font-size: 2rem; margin: 0 0 .35rem; color: #fff; letter-spacing: -.02em; }
+        .hub-hero__tagline { margin: 0 0 .5rem; color: #94a3b8; font-size: 1.05rem; }
+        .hub-hero__link { font-size: .95rem; }
+
+        .hub-section { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid #334155; }
+        .hub-section__title { font-size: 1.15rem; margin: 0 0 .35rem; color: #f1f5f9; }
+        .hub-section__lede { margin: 0 0 1.5rem; color: #94a3b8; font-size: .95rem; }
+
+        .hub-cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+        .hub-card {
+          background: #172033; border: 1px solid #334155; border-radius: 12px;
+          padding: 1.25rem; display: flex; flex-direction: column;
+        }
+        .hub-card h3 { margin: 0 0 .5rem; font-size: 1rem; color: #fff; }
+        .hub-card p { margin: 0 0 1rem; font-size: .93rem; color: #cbd5e1; flex: 1; }
+        .hub-card__cta { font-size: .93rem; font-weight: 600; }
+        .hub-badge {
+          display: inline-block; font-size: .7rem; letter-spacing: .04em; text-transform: uppercase;
+          background: #1e293b; border: 1px solid #334155; color: #94a3b8;
+          padding: .15rem .45rem; border-radius: 999px; margin-bottom: .6rem;
+        }
+
+        .hub-posts { list-style: none; padding: 0; margin: 0; }
+        .hub-posts li { padding: .9rem 0; border-bottom: 1px solid #263449; }
+        .hub-posts li:last-child { border-bottom: 0; }
+        .hub-posts time { display: block; font-size: .8rem; color: #94a3b8; margin-bottom: .2rem;
+                          font-variant-numeric: tabular-nums; }
+        .hub-posts a { font-weight: 600; }
+        .hub-posts p { margin: .3rem 0 0; font-size: .9rem; color: #a9b6c8; }
+
+        .hub-footer { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid #334155;
+                      font-size: .9rem; color: #94a3b8; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+      </style>
+    {% end_require_css %}
+  </head>
+  <body class="hub-home">
+    <main class="hub">
+
+      <header class="hub-hero">
+        <img class="hub-hero__avatar" alt=""
+             src="https://georgestephanis.wordpress.com/wp-content/uploads/2025/05/geroge-stephanis-code-monkey-badge.png?w=176">
+        <div>
+          <h1 class="hub-hero__name" data-wp-site-name>George Stephanis</h1>
+          <p class="hub-hero__tagline" data-wp-site-tagline>Code monkey get up, get coffee&hellip;</p>
+          <p class="hub-hero__link">
+            <a href="https://georgestephanis.com/" rel="me noopener">georgestephanis.com</a>
+          </p>
+        </div>
+      </header>
+
+      <section class="hub-section">
+        <h2 class="hub-section__title">HubSpot CMS modules</h2>
+        <p class="hub-section__lede">
+          Free, GPL-licensed custom modules for the HubSpot CMS. Try them running live.
+        </p>
+        <div class="hub-cards">
+          <article class="hub-card">
+            <span class="hub-badge">Live demo</span>
+            <h3>Custom Pillbox Input</h3>
+            <p>
+              A tag input that renders selections as removable pills, with auto-suggest,
+              a configurable limit, and a native <code>&lt;select multiple&gt;</code> underneath
+              for form submission.
+            </p>
+            <p class="hub-card__cta">
+              <a href="/pillbox-demo">View the demo &rarr;</a><br>
+              <a href="/pillbox-instructions">Settings &amp; features guide &rarr;</a>
+            </p>
+          </article>
+          <article class="hub-card">
+            <h3>Custom Promo Card</h3>
+            <p>
+              A configurable promotional card with badge, title, body, imagery, and
+              call-to-action, using glassmorphism and size-aware container queries.
+            </p>
+            <p class="hub-card__cta">Demo page coming soon</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="hub-section">
+        <h2 class="hub-section__title">Latest writing</h2>
+        <p class="hub-section__lede">
+          Pulled live from <a href="https://georgestephanis.com/" rel="noopener">georgestephanis.com</a>.
+        </p>
+        <ul class="hub-posts" id="wp-posts">
+          <li>
+            <time datetime="2026-03-23">23 March 2026</time>
+            <a href="https://georgestephanis.com/2026/03/23/building-better-workflows-with-claude-and-wordpress-studio/" rel="noopener">Building Better Workflows with Claude and WordPress Studio</a>
+          </li>
+          <li>
+            <time datetime="2026-01-06">6 January 2026</time>
+            <a href="https://georgestephanis.com/2026/01/06/automate-your-wordpress-theme-development/" rel="noopener">Automate Your WordPress Theme Development</a>
+          </li>
+          <li>
+            <time datetime="2026-01-05">5 January 2026</time>
+            <a href="https://georgestephanis.com/2026/01/05/how-i-built-wordup-a-guide-to-creating-a-macos-app/" rel="noopener">How I Built WordUp: A Guide to Creating a macOS App</a>
+          </li>
+          <li>
+            <time datetime="2025-12-28">28 December 2025</time>
+            <a href="https://georgestephanis.com/2025/12/28/wp-rest-api-vs-graphql-performance/" rel="noopener">WP REST API vs GraphQL Performance</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="hub-section">
+        <h2 class="hub-section__title">Full source</h2>
+        <p class="hub-section__lede">
+          Both modules are free software, licensed
+          <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" rel="noopener">GPL-2.0-or-later</a>.
+          You are free to use, study, modify, and redistribute them.
+        </p>
+        <div class="hub-cards">
+          <article class="hub-card">
+            <h3>hs-marketplace on GitHub</h3>
+            <p>
+              The complete source: module HubL, CSS, and JavaScript, the field
+              definitions, per-module documentation, and the page templates behind
+              this site. Clone it, or upload a module to your own portal with
+              <code>hs cms upload</code>.
+            </p>
+            <p class="hub-card__cta">
+              <a href="https://github.com/georgestephanis/hs-marketplace" rel="noopener">Browse the repository &rarr;</a>
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="hub-footer">
+        <a href="/terms-of-service">Terms of Service</a>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <span>&copy; 2026 George Stephanis</span>
+      </footer>
+    </main>
+
+    {% require_js %}
+      <script>
+        /* Refresh the post list from the WordPress.com REST API.
+           The markup above is a server-rendered fallback, so if this fetch
+           fails, is blocked, or JS is unavailable, the page still reads fine.
+           Only the wp/v2 namespace sends CORS headers; rest/v1.1 does not,
+           so the name and tagline are baked in rather than fetched. */
+        (function () {
+          var LIST = document.getElementById('wp-posts');
+          if (!LIST || !window.fetch) return;
+
+          var ENDPOINT = 'https://public-api.wordpress.com/wp/v2/sites/' +
+                         'georgestephanis.com/posts?per_page=4&_fields=title,link,date';
+
+          var strip = function (html) {
+            var d = document.createElement('div');
+            d.innerHTML = html;
+            return d.textContent || '';
+          };
+
+          fetch(ENDPOINT, { credentials: 'omit' })
+            .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(function (posts) {
+              if (!Array.isArray(posts) || !posts.length) return;
+              var frag = document.createDocumentFragment();
+              posts.forEach(function (p) {
+                var title = strip((p.title && p.title.rendered) || '').trim();
+                if (!title || !p.link) return;
+
+                var li = document.createElement('li');
+                var when = new Date(p.date);
+                var t = document.createElement('time');
+                t.dateTime = p.date.slice(0, 10);
+                t.textContent = isNaN(when) ? p.date.slice(0, 10)
+                  : when.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+                var a = document.createElement('a');
+                a.href = p.link;
+                a.rel = 'noopener';
+                a.textContent = title;
+
+                li.appendChild(t);
+                li.appendChild(a);
+                frag.appendChild(li);
+              });
+              if (frag.childNodes.length) {
+                LIST.textContent = '';
+                LIST.appendChild(frag);
+              }
+            })
+            .catch(function () { /* keep the baked fallback */ });
+        })();
+      </script>
+    {% end_require_js %}
+    {{ standard_footer_includes }}
+  </body>
+</html>

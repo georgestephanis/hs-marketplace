@@ -1,0 +1,236 @@
+<!--
+    templateType: page
+    isAvailableForNewContent: true
+-->
+<!doctype html>
+<html lang="{{ html_lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if content.html_title %}{{ content.html_title }}{% else %}Custom Pillbox Input — Settings &amp; Features{% endif %}</title>
+    <meta name="description" content="{{ content.meta_description }}">
+    {% if brand_settings.primaryFavicon.src %}
+      <link rel="shortcut icon" href="{{ brand_settings.primaryFavicon.src }}" />
+    {% endif %}
+    {{ standard_header_includes }}
+    {% require_css %}
+      <style>
+        body.pb-docs {
+          background-color: #0f172a; color: #e5e7eb; margin: 0;
+          font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.65;
+        }
+        .pb { max-width: 52rem; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+        .pb a { color: #93b4fd; }
+        .pb a:hover { color: #c7d8ff; }
+        .pb h1 { font-size: 2rem; margin: 0 0 .5rem; color: #fff; letter-spacing: -.02em; }
+        .pb__lede { color: #94a3b8; margin: 0 0 1rem; font-size: 1.05rem; }
+        .pb__nav { font-size: .9rem; color: #94a3b8; margin: 0 0 1rem; }
+        .pb h2 { font-size: 1.15rem; margin: 3rem 0 .5rem; padding-top: 1.5rem;
+                 border-top: 1px solid #334155; color: #f1f5f9; }
+        .pb h3 { font-size: 1rem; margin: 2rem 0 .35rem; color: #fff; }
+        .pb p { font-size: 1rem; }
+        .pb code { background: #1e293b; color: #e2e8f0; padding: .1em .35em;
+                   border-radius: 4px; font-size: .9em; }
+        .pb pre { background: #131c2e; border: 1px solid #334155; border-radius: 10px;
+                  padding: 1rem; overflow-x: auto; margin: .85rem 0 0; }
+        .pb pre code { background: none; padding: 0; font-size: .85rem; line-height: 1.5; color: #cbd5e1; }
+        .pb__demo { background: #172033; border: 1px solid #334155; border-radius: 12px;
+                    padding: 1.5rem; margin-top: .85rem; }
+        .pb__note { color: #94a3b8; font-size: .92rem; margin: .5rem 0 0; }
+        .pb__table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+        .pb table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+        .pb th, .pb td { border: 1px solid #334155; padding: .55rem .7rem;
+                         text-align: left; vertical-align: top; }
+        .pb th { background: #1e293b; color: #f1f5f9; font-weight: 600; }
+        .pb td { background: #172033; }
+        .pb__footer { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid #334155;
+                      font-size: .9rem; color: #94a3b8; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+      </style>
+    {% end_require_css %}
+  </head>
+  <body class="pb-docs">
+    <main class="pb">
+      <h1>Custom Pillbox Input</h1>
+      <p class="pb__lede">
+        Every supported setting, with a live instance you can type into. Each example
+        shows the HubL that produced it.
+      </p>
+      <p class="pb__nav">
+        <a href="/">Home</a> &middot;
+        <a href="/pillbox-demo">Standalone demo</a> &middot;
+        <a href="https://github.com/georgestephanis/hs-marketplace/tree/trunk/src/custom-pillbox-input.module" rel="noopener">Source on GitHub</a>
+      </p>
+
+      <h2>Field reference</h2>
+      <div class="pb__table-wrap">
+        <table>
+          <thead>
+            <tr><th>Field</th><th>Type</th><th>Default</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>field_name</code></td><td>text (required)</td><td><code>custom_pillbox_tags</code></td>
+                <td>The <code>name</code> on the underlying <code>&lt;select multiple&gt;</code>, used when a form submits.</td></tr>
+            <tr><td><code>placeholder_text</code></td><td>text</td><td><code>Add tags...</code></td>
+                <td>Placeholder shown in the empty text input.</td></tr>
+            <tr><td><code>max_pills</code></td><td>number (1&ndash;100)</td><td><code>10</code></td>
+                <td>Maximum tags a visitor may add.</td></tr>
+            <tr><td><code>limit_reached_text</code></td><td>text</td><td><code>Limit reached</code></td>
+                <td>Message shown once <code>max_pills</code> is hit.</td></tr>
+            <tr><td><code>remove_button_label</code></td><td>text</td><td><code>Remove</code></td>
+                <td>Accessible label on each pill's remove control.</td></tr>
+            <tr><td><code>no_matches_text</code></td><td>text</td><td><code>No suggestions found</code></td>
+                <td>Shown when typing matches no suggestion.</td></tr>
+            <tr><td><code>predefined_suggestions</code></td><td>repeated text</td><td>Marketing, Sales, Development, Design</td>
+                <td>Auto-suggest options offered as the visitor types.</td></tr>
+            <tr><td><code>custom_colors_csv</code></td><td>text</td><td><em>empty</em></td>
+                <td>Comma-separated hex colours overriding the default pill palette.</td></tr>
+            <tr><td><code>styles.bg_style</code></td><td>choice</td><td><code>glassmorphism</code></td>
+                <td><code>glassmorphism</code> for a frosted container, <code>solid</code> for a flat one.</td></tr>
+            <tr><td><code>styles.primary_color</code></td><td>color</td><td><code>#3b82f6</code></td>
+                <td>Accent colour. Inherits <code>theme.primary_color</code> when available.</td></tr>
+            <tr><td><code>styles.text_color</code></td><td>color</td><td><code>#ffffff</code></td>
+                <td>Text colour. Inherits <code>theme.secondary_color</code> when available.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>1. Defaults</h2>
+      <p>With no parameters beyond <code>path</code>, every field falls back to its default.</p>
+      <div class="pb__demo">
+        {% module "pb_default" path="/src/custom-pillbox-input.module" %}
+      </div>
+      <pre><code>{% raw %}{% module "pb_default" path="/src/custom-pillbox-input.module" %}{% endraw %}</code></pre>
+
+      <h2>2. Background modes</h2>
+      <h3>Glassmorphic frost (default)</h3>
+      <div class="pb__demo">
+        {% module "pb_glass" path="/src/custom-pillbox-input.module",
+          field_name="pb_glass" %}
+      </div>
+      <h3>Solid</h3>
+      <div class="pb__demo">
+        {% module "pb_solid" path="/src/custom-pillbox-input.module",
+          field_name="pb_solid" %}
+          {% module_attribute "styles" %}{ "bg_style": "solid" }{% end_module_attribute %}
+        {% end_module %}
+      </div>
+      <pre><code>{% raw %}{% module "pb_solid" path="/src/custom-pillbox-input.module" %}
+  {% module_attribute "styles" %}{ "bg_style": "solid" }{% end_module_attribute %}
+{% end_module %}{% endraw %}</code></pre>
+
+      <h2>3. Limiting how many tags</h2>
+      <p>
+        Set <code>max_pills</code>, and pair it with <code>limit_reached_text</code> so the
+        message matches the limit. This instance stops at three.
+      </p>
+      <div class="pb__demo">
+        {% module "pb_limit" path="/src/custom-pillbox-input.module",
+          field_name="pb_limit",
+          max_pills=3,
+          limit_reached_text="That's three — remove one to add another",
+          placeholder_text="Pick up to 3..." %}
+      </div>
+      <pre><code>{% raw %}{% module "pb_limit" path="/src/custom-pillbox-input.module",
+  field_name="pb_limit",
+  max_pills=3,
+  limit_reached_text="That's three — remove one to add another",
+  placeholder_text="Pick up to 3..." %}{% endraw %}</code></pre>
+
+      <h2>4. Your own suggestions</h2>
+      <p>
+        <code>predefined_suggestions</code> is a repeated text field, so pass a list. Visitors
+        can still type values that are not on it.
+      </p>
+      <div class="pb__demo">
+        {% module "pb_suggest" path="/src/custom-pillbox-input.module",
+          field_name="pb_suggest",
+          placeholder_text="Try typing 'w'...",
+          predefined_suggestions=["WordPress", "WP-CLI", "Gutenberg", "PHP", "JavaScript", "HubL"] %}
+      </div>
+      <pre><code>{% raw %}{% module "pb_suggest" path="/src/custom-pillbox-input.module",
+  field_name="pb_suggest",
+  placeholder_text="Try typing 'w'...",
+  predefined_suggestions=["WordPress", "WP-CLI", "Gutenberg", "PHP", "JavaScript", "HubL"] %}{% endraw %}</code></pre>
+
+      <h2>5. Empty-state message</h2>
+      <p>
+        Type something that matches nothing to see <code>no_matches_text</code>.
+      </p>
+      <div class="pb__demo">
+        {% module "pb_nomatch" path="/src/custom-pillbox-input.module",
+          field_name="pb_nomatch",
+          placeholder_text="Type 'zzz'...",
+          no_matches_text="Nothing matches — press Enter to add it anyway",
+          predefined_suggestions=["Alpha", "Beta", "Gamma"] %}
+      </div>
+      <pre><code>{% raw %}{% module "pb_nomatch" path="/src/custom-pillbox-input.module",
+  field_name="pb_nomatch",
+  no_matches_text="Nothing matches — press Enter to add it anyway",
+  predefined_suggestions=["Alpha", "Beta", "Gamma"] %}{% endraw %}</code></pre>
+
+      <h2>6. Custom pill palette</h2>
+      <p>
+        <code>custom_colors_csv</code> takes a comma-separated list of hex colours. Pills cycle
+        through them in order, replacing the built-in palette. Blank entries are ignored.
+      </p>
+      <div class="pb__demo">
+        {% module "pb_colors" path="/src/custom-pillbox-input.module",
+          field_name="pb_colors",
+          placeholder_text="Add a few to see the palette...",
+          custom_colors_csv="#f97316, #14b8a6, #a855f7, #ef4444",
+          predefined_suggestions=["Amber", "Teal", "Violet", "Red", "Slate"] %}
+      </div>
+      <pre><code>{% raw %}{% module "pb_colors" path="/src/custom-pillbox-input.module",
+  field_name="pb_colors",
+  custom_colors_csv="#f97316, #14b8a6, #a855f7, #ef4444" %}{% endraw %}</code></pre>
+
+      <h2>7. Accent and text colours</h2>
+      <p>
+        <code>styles.primary_color</code> and <code>styles.text_color</code> are colour fields, so
+        they take a <code>color</code> and an <code>opacity</code>. Left alone, they inherit
+        <code>theme.primary_color</code> and <code>theme.secondary_color</code>.
+      </p>
+      <div class="pb__demo">
+        {% module "pb_accent" path="/src/custom-pillbox-input.module",
+          field_name="pb_accent",
+          placeholder_text="Amber accent..." %}
+          {% module_attribute "styles" %}{
+            "bg_style": "solid",
+            "primary_color": { "color": "#f59e0b", "opacity": 100 },
+            "text_color": { "color": "#0f172a", "opacity": 100 }
+          }{% end_module_attribute %}
+        {% end_module %}
+      </div>
+      <pre><code>{% raw %}{% module "pb_accent" path="/src/custom-pillbox-input.module" %}
+  {% module_attribute "styles" %}{
+    "bg_style": "solid",
+    "primary_color": { "color": "#f59e0b", "opacity": 100 },
+    "text_color": { "color": "#0f172a", "opacity": 100 }
+  }{% end_module_attribute %}
+{% end_module %}{% endraw %}</code></pre>
+
+      <h2>8. Using it in a form</h2>
+      <p>
+        The module renders a native <code>&lt;select multiple&gt;</code> carrying
+        <code>field_name</code>, and fires <code>change</code> events as selections update. Place it
+        inside a form and the selected tags submit like any other field.
+      </p>
+      <pre><code>{% raw %}&lt;form method="post" action="/your-handler"&gt;
+  {% module "pb_form" path="/src/custom-pillbox-input.module",
+    field_name="signup_interests" %}
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;{% endraw %}</code></pre>
+      <p class="pb__note">
+        Give each instance on a page its own <code>field_name</code>, or their submitted
+        values will collide.
+      </p>
+
+      <footer class="pb__footer">
+        <a href="/">Home</a>
+        <a href="/terms-of-service">Terms of Service</a>
+        <a href="/privacy-policy">Privacy Policy</a>
+      </footer>
+    </main>
+    {{ standard_footer_includes }}
+  </body>
+</html>
