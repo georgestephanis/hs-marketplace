@@ -1,0 +1,197 @@
+/* Container definition for size-aware container queries */
+.custom-promo-card-container {
+  container-type: inline-size;
+  width: 100%;
+}
+
+/* Base card styling using glassmorphism */
+.custom-promo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: var(--card-backdrop);
+  -webkit-backdrop-filter: var(--card-backdrop);
+  color: var(--text-color);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+
+/* Glassmorphism subtle overlay texture */
+.custom-promo-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Premium Hover micro-animations */
+.custom-promo-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 40px 0 rgba(0, 0, 0, 0.4),
+    0 0 16px 2px rgba(var(--text-color-rgb), 0.1);
+  border-color: rgba(var(--text-color-rgb), 0.5);
+}
+
+/* Badge styling */
+.custom-promo-card__badge {
+  align-self: flex-start;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--primary-accent);
+  color: var(--accent-text-color, #ffffff);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.custom-promo-card:hover .custom-promo-card__badge {
+  transform: scale(1.05);
+}
+
+/* Content wrapper */
+.custom-promo-card__main {
+  z-index: 2;
+}
+
+.custom-promo-card__title {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.custom-promo-card__body {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.custom-promo-card__body h3 {
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--primary-accent);
+}
+
+.custom-promo-card__body p {
+  margin: 0;
+}
+
+/* Action button area */
+.custom-promo-card__actions {
+  z-index: 2;
+  margin-top: auto;
+}
+
+.custom-promo-card__button {
+  display: inline-block;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: var(--primary-accent);
+  color: var(--accent-text-color, #ffffff);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.custom-promo-card__button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color, #ffffff);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+  border: 1px solid var(--primary-accent);
+}
+
+/* Content-Based layout adaptation using :has() */
+/* If the card HAS a badge, increase top padding to balance */
+.custom-promo-card:has(.custom-promo-card__badge) {
+  padding-top: 2.5rem;
+}
+
+/* Size-Aware Container Query responsiveness */
+@container (min-width: 550px) {
+  .custom-promo-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
+    padding: 2.5rem;
+  }
+
+  .custom-promo-card__main {
+    flex: 1;
+  }
+
+  .custom-promo-card__actions {
+    margin-top: 0;
+    flex-shrink: 0;
+  }
+
+  .custom-promo-card__badge {
+    position: absolute;
+    top: 1rem;
+    left: 2.5rem;
+  }
+}
+
+/* Accessibility: prefers-reduced-motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  .custom-promo-card,
+  .custom-promo-card__badge,
+  .custom-promo-card__button {
+    transition: none !important;
+  }
+  .custom-promo-card:hover {
+    transform: none !important;
+  }
+  .custom-promo-card__button:hover {
+    transform: none !important;
+  }
+}
