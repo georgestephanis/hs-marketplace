@@ -29,6 +29,57 @@ document.addEventListener("DOMContentLoaded", () => {
       10,
     );
 
+    // Parse custom color palette if provided, otherwise default to a high-contrast palette
+    let customColors = [];
+    try {
+      customColors = JSON.parse(
+        container.getAttribute("data-custom-colors") || "[]",
+      );
+    } catch (e) {
+      console.warn("Pillbox: Could not parse custom colors array", e);
+    }
+
+    const hexToRgb = (hex) => {
+      const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      const fullHex = hex.replace(
+        shorthandRegex,
+        (m, r, g, b) => r + r + g + g + b + b,
+      );
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(fullHex);
+      return result
+        ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
+        : null;
+    };
+
+    const DEFAULT_PALETTE = [
+      "59, 130, 246", // Blue
+      "168, 85, 247", // Purple
+      "34, 197, 94", // Green
+      "249, 115, 22", // Orange
+      "236, 72, 153", // Pink
+      "6, 182, 212", // Teal
+    ];
+
+    const palette =
+      customColors.length > 0
+        ? customColors.map((c) => hexToRgb(c)).filter(Boolean)
+        : DEFAULT_PALETTE;
+
+    function getPillRgb(value) {
+      let hash = 0;
+      for (let i = 0; i < value.length; i++) {
+        hash = value.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const idx = Math.abs(hash) % palette.length;
+      return palette[idx];
+    }
+
+    // Store original placeholder to restore it when input is enabled
+    textField.setAttribute(
+      "data-original-placeholder",
+      textField.placeholder || "",
+    );
+
     // Store all initial suggestions from the HubL list
     const originalSuggestions = Array.from(
       container.querySelectorAll(".custom-pillbox-input__suggestion-item"),
@@ -144,6 +195,10 @@ document.addEventListener("DOMContentLoaded", () => {
         pillEl.className = "custom-pillbox-input__pill";
         pillEl.setAttribute("data-value", pill);
 
+        // Apply dynamic color variables
+        const rgb = getPillRgb(pill);
+        pillEl.style.setProperty("--pill-accent-rgb", rgb);
+
         const textEl = document.createElement("span");
         textEl.textContent = pill;
 
@@ -176,6 +231,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Set data-pill-count on the main container
       container.setAttribute("data-pill-count", activePills.length);
+
+      // Disable/enable input and modify placeholder when limit is reached
+      if (activePills.length >= maxPills) {
+        textField.disabled = true;
+        textField.placeholder = "Limit reached";
+        hideDropdown();
+      } else {
+        textField.disabled = false;
+        textField.placeholder =
+          textField.getAttribute("data-original-placeholder") || "";
+      }
     }
 
     // Filter autocomplete dropdown options

@@ -23,7 +23,11 @@
 {% end_require_css %}
 
 {# Component UI structure #}
-<div class="custom-pillbox-input-container" data-max-pills="{{ module.max_pills|escape_attr }}">
+<div
+  class="custom-pillbox-input-container"
+  data-max-pills="{{ module.max_pills|escape_attr }}"
+  data-custom-colors='[{% for color_field in module.custom_colors %}"{{ color_field.color|escape_attr }}"{% if not loop.last %},{% endif %}{% endfor %}]'
+>
   {# The interactive input area #}
   <div class="custom-pillbox-input__box">
     <div class="custom-pillbox-input__pills-wrapper">

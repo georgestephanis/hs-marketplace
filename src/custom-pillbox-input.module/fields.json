@@ -42,6 +42,30 @@
     "default": ["Marketing", "Sales", "Development", "Design"]
   },
   {
+    "id": "custom_colors",
+    "name": "custom_colors",
+    "label": "Custom Tag Colors",
+    "inline_help_text": "Optionally specify custom colors that the pills will cycle through. If left empty, a default high-contrast palette is used.",
+    "required": false,
+    "locked": false,
+    "occurrence": {
+      "min": 0,
+      "max": null,
+      "sorting_label_field": null,
+      "default": 0
+    },
+    "show_opacity": false,
+    "type": "color",
+    "display_width": null,
+    "default": {
+      "color": null,
+      "opacity": null,
+      "hex": null,
+      "rgba": null,
+      "rgb": null
+    }
+  },
+  {
     "id": "styles",
     "name": "styles",
     "label": "Design Customizations",
