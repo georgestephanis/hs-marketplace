@@ -92,6 +92,12 @@
   background-color: rgba(128, 128, 128, 0.2);
 }
 
+.custom-pillbox-input__remove-btn:focus-visible {
+  outline: 2px solid var(--pillbox-accent);
+  outline-offset: 1px;
+  opacity: 1;
+}
+
 /* The actual text input field */
 .custom-pillbox-input__text-field {
   flex: 1;
@@ -104,9 +110,9 @@
   outline: none;
 }
 
-.custom-pillbox-input__text-field:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
+.custom-pillbox-input__text-field:read-only {
+  cursor: default;
+  opacity: 0.7;
 }
 
 .custom-pillbox-input__text-field::placeholder {
@@ -122,7 +128,7 @@
   max-height: 200px;
   overflow-y: auto;
   border-radius: 8px;
-  background: rgba(15, 23, 42, 0.95);
+  background: var(--pillbox-dropdown-bg, rgba(15, 23, 42, 0.95));
   border: 1px solid var(--pillbox-border);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -143,7 +149,7 @@
 .custom-pillbox-input__suggestion-item {
   padding: 0.5rem 0.75rem;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--pillbox-dropdown-text, rgba(255, 255, 255, 0.9));
   cursor: pointer;
   border-radius: 6px;
   transition:
@@ -182,5 +188,30 @@
   40%,
   80% {
     transform: translateX(4px);
+  }
+}
+
+/* Screen reader only utility class (§8) */
+.custom-pillbox-input__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Accessibility: prefers-reduced-motion overrides (§11) */
+@media (prefers-reduced-motion: reduce) {
+  .custom-pillbox-input__box.shake {
+    animation: none;
+    border-color: #ef4444 !important;
+  }
+  .custom-pillbox-input__pill,
+  .custom-pillbox-input__remove-btn,
+  .custom-pillbox-input__suggestion-item {
+    transition: none !important;
   }
 }

@@ -4,7 +4,7 @@
   "description": "HubSpot CMS marketplace custom module learning repository",
   "scripts": {
     "format": "prettier --write \"**/*.{html,css,js,json,md}\"",
-    "validate": "hs cms module marketplace-validate src/custom-promo-card.module"
+    "validate": "hs cms module marketplace-validate src/custom-promo-card.module && hs cms module marketplace-validate src/custom-pillbox-input.module"
   },
   "devDependencies": {
     "@hubspot/prettier-plugin-hubl": "^0.3.8",

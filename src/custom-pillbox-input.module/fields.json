@@ -75,6 +75,18 @@
     "default": ["Marketing", "Sales", "Development", "Design"]
   },
   {
+    "id": "field_name",
+    "name": "field_name",
+    "label": "Form Field Name",
+    "inline_help_text": "The name attribute of the underlying select multiple element, used during form submission.",
+    "required": true,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "custom_pillbox_tags"
+  },
+  {
     "id": "custom_colors",
     "name": "custom_colors",
     "label": "Custom Tag Colors",
@@ -86,6 +98,13 @@
       "max": null,
       "sorting_label_field": null,
       "default": 0
+    },
+    "inherited_value": {
+      "default_value_path": "theme.primary_color",
+      "property_value_paths": {
+        "color": "theme.primary_color.color",
+        "opacity": "theme.primary_color.opacity"
+      }
     },
     "show_opacity": false,
     "type": "color",

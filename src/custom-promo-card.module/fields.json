@@ -22,6 +22,28 @@
     "default": "Experience Antigravity"
   },
   {
+    "id": "card_heading_level",
+    "name": "card_heading_level",
+    "label": "Card Title Heading Level",
+    "required": false,
+    "locked": false,
+    "display": "select",
+    "choices": [
+      ["h1", "H1"],
+      ["h2", "H2"],
+      ["h3", "H3"],
+      ["h4", "H4"],
+      ["h5", "H5"],
+      ["h6", "H6"]
+    ],
+    "multiple": false,
+    "reordering_enabled": false,
+    "preset": null,
+    "type": "choice",
+    "display_width": null,
+    "default": "h2"
+  },
+  {
     "id": "card_body",
     "name": "card_body",
     "label": "Card Body Text",

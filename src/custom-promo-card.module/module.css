@@ -64,7 +64,7 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   background: var(--primary-accent);
-  color: #ffffff;
+  color: var(--accent-text-color, #ffffff);
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
@@ -129,9 +129,10 @@
   font-weight: 600;
   text-decoration: none;
   background: var(--primary-accent);
-  color: #ffffff;
+  color: var(--accent-text-color, #ffffff);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
+  border: 1px solid transparent;
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
   transition:
     background-color 0.2s ease,
@@ -142,7 +143,7 @@
 
 .custom-promo-card__button:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: var(--text-color, #ffffff);
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);
   border: 1px solid var(--primary-accent);
@@ -177,5 +178,20 @@
     position: absolute;
     top: 1rem;
     left: 2.5rem;
+  }
+}
+
+/* Accessibility: prefers-reduced-motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  .custom-promo-card,
+  .custom-promo-card__badge,
+  .custom-promo-card__button {
+    transition: none !important;
+  }
+  .custom-promo-card:hover {
+    transform: none !important;
+  }
+  .custom-promo-card__button:hover {
+    transform: none !important;
   }
 }

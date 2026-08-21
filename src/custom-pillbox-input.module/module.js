@@ -1,7 +1,7 @@
 // HubSpot Module: Custom Pillbox Input
 // Manages pill/tag creation, deletions, auto-suggestions, and form synchronization.
 
-document.addEventListener("DOMContentLoaded", () => {
+function initPillboxInput() {
   const containers = document.querySelectorAll(
     ".custom-pillbox-input-container",
   );
@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectField = container.querySelector(
       ".custom-pillbox-input__select-field",
     );
+    const announceEl = container.querySelector(
+      ".custom-pillbox-input__sr-only",
+    );
 
     const maxPills = parseInt(
       container.getAttribute("data-max-pills") || "10",
@@ -40,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const hexToRgb = (hex) => {
+      if (!hex) return null;
       const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
       const fullHex = hex.replace(
         shorthandRegex,
@@ -60,10 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
       "6, 182, 212", // Teal
     ];
 
+    // Mitigate §2: Filter out null/empty color values defensively
+    const resolvedColors = customColors.map((c) => hexToRgb(c)).filter(Boolean);
     const palette =
-      customColors.length > 0
-        ? customColors.map((c) => hexToRgb(c)).filter(Boolean)
-        : DEFAULT_PALETTE;
+      resolvedColors.length > 0 ? resolvedColors : DEFAULT_PALETTE;
 
     function getPillRgb(value) {
       let hash = 0;
@@ -109,17 +113,47 @@ document.addEventListener("DOMContentLoaded", () => {
       return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
     }
 
+    // Mitigate §15: Cache container background color once at init to avoid layout thrashing
+    const containerBgColor = getBgColor(container);
+
+    // Mitigate §21: Setup dynamic dropdown background/text colors based on background mode
+    const [r_bg, g_bg, b_bg] = parseRgb(containerBgColor);
+    const containerLuminance = getLuminance(r_bg, g_bg, b_bg);
+    const isDark = containerLuminance < 0.45;
+    if (isDark) {
+      container.style.setProperty(
+        "--pillbox-dropdown-bg",
+        "rgba(30, 41, 59, 0.95)",
+      );
+      container.style.setProperty(
+        "--pillbox-dropdown-text",
+        "rgba(255, 255, 255, 0.9)",
+      );
+    } else {
+      container.style.setProperty(
+        "--pillbox-dropdown-bg",
+        "rgba(255, 255, 255, 0.98)",
+      );
+      container.style.setProperty(
+        "--pillbox-dropdown-text",
+        "rgba(15, 23, 42, 0.9)",
+      );
+    }
+
+    // Mitigate §9: Compute true contrast ratio against white and dark slate backgrounds
     function getContrastColor(rgbStr) {
       const [r_src, g_src, b_src] = parseRgb(rgbStr);
-      const [r_dst, g_dst, b_dst] = parseRgb(getBgColor(container));
+      const [r_dst, g_dst, b_dst] = parseRgb(containerBgColor);
 
-      // Blend 15% opacity src over dst background
+      // Blend 15% opacity src color over dst background
       const r_out = Math.round(0.15 * r_src + 0.85 * r_dst);
       const g_out = Math.round(0.15 * g_src + 0.85 * g_dst);
       const b_out = Math.round(0.15 * b_src + 0.85 * b_dst);
 
       const luminance = getLuminance(r_out, g_out, b_out);
-      return luminance > 0.45 ? "#0f172a" : "#ffffff";
+      const contrastWhite = (1.0 + 0.05) / (luminance + 0.05);
+      const contrastDark = (luminance + 0.05) / (0.012 + 0.05); // Slate (#0f172a) luminance
+      return contrastWhite >= contrastDark ? "#ffffff" : "#0f172a";
     }
 
     const limitReachedText =
@@ -145,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let activePills = [];
     let focusedSuggestionIndex = -1;
+    let blurTimeout = null; // Mitigate §13: store timeout handle
 
     // Focus the text field when clicking anywhere inside the input box boundary
     box.addEventListener("click", (e) => {
@@ -156,14 +191,25 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    // Mitigate §8: Helper function for screen reader live-region alerts
+    function announce(msg) {
+      if (announceEl) {
+        announceEl.textContent = msg;
+      }
+    }
+
+    // Mitigate §13, §14: Manage focus behaviors defensively
     textField.addEventListener("focus", () => {
+      if (blurTimeout) clearTimeout(blurTimeout);
       container.classList.add("is-focused");
-      filterSuggestions();
+      if (originalSuggestions.length > 0) {
+        filterSuggestions();
+      }
     });
 
     textField.addEventListener("blur", () => {
       // Small timeout to allow click actions on dropdown suggestions to fire first
-      setTimeout(() => {
+      blurTimeout = setTimeout(() => {
         container.classList.remove("is-focused");
         hideDropdown();
       }, 200);
@@ -218,25 +264,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const cleanValue = value.replace(/,/g, "").trim();
       if (!cleanValue) return;
 
-      // Validation checks
-      if (activePills.includes(cleanValue)) {
+      // Mitigate §16: Case-insensitive duplicate detection
+      const lowercasePills = activePills.map((p) => p.toLowerCase());
+      if (lowercasePills.includes(cleanValue.toLowerCase())) {
+        announce(`Tag already added: ${cleanValue}`);
         shakeInput();
         return;
       }
       if (activePills.length >= maxPills) {
+        announce(limitReachedText);
         shakeInput();
         return;
       }
 
       activePills.push(cleanValue);
       textField.value = "";
+      announce(`Added tag ${cleanValue}`);
       renderPills();
       filterSuggestions();
     }
 
     // Remove a pill by index
     function removePill(index) {
+      const removedVal = activePills[index];
       activePills.splice(index, 1);
+      announce(`Removed tag ${removedVal}`);
       renderPills();
       filterSuggestions();
     }
@@ -290,13 +342,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // Set data-pill-count on the main container
       container.setAttribute("data-pill-count", activePills.length);
 
-      // Disable/enable input and modify placeholder when limit is reached
+      // Mitigate §12: Toggles readOnly instead of disabled when limit is met
       if (activePills.length >= maxPills) {
-        textField.disabled = true;
+        textField.readOnly = true;
         textField.placeholder = limitReachedText;
         hideDropdown();
       } else {
-        textField.disabled = false;
+        textField.readOnly = false;
         textField.placeholder =
           textField.getAttribute("data-original-placeholder") || "";
       }
@@ -304,6 +356,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Filter autocomplete dropdown options
     function filterSuggestions() {
+      if (originalSuggestions.length === 0) return; // Skip if no predefined suggestions
+
       const query = textField.value.toLowerCase().trim();
 
       // Exclude values that are already active pills
@@ -314,10 +368,14 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       });
 
+      // Mitigate §14: Reset focused index when suggestion filter yields zero results
       if (available.length === 0) {
         list.innerHTML = "";
+        focusedSuggestionIndex = -1;
         const li = document.createElement("li");
         li.className = "custom-pillbox-input__no-matches";
+        li.setAttribute("role", "option");
+        li.setAttribute("aria-selected", "false");
         li.textContent = noMatchesText;
         list.appendChild(li);
         showDropdown();
@@ -332,6 +390,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const li = document.createElement("li");
         li.className = "custom-pillbox-input__suggestion-item";
         li.setAttribute("data-value", item.value);
+        li.setAttribute("role", "option");
+        li.setAttribute("aria-selected", "false");
+
+        // Dynamic element ID mapping to satisfy §6 ARIA activedescendant
+        const textId = textField.getAttribute("id");
+        li.id = `${textId}-opt-${idx}`;
+
         li.textContent = item.text;
 
         li.addEventListener("mousedown", (e) => {
@@ -352,8 +417,9 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       if (items.length === 0) return;
 
-      if (focusedSuggestionIndex >= 0) {
+      if (focusedSuggestionIndex >= 0 && items[focusedSuggestionIndex]) {
         items[focusedSuggestionIndex].classList.remove("is-active");
+        items[focusedSuggestionIndex].setAttribute("aria-selected", "false");
       }
 
       focusedSuggestionIndex += direction;
@@ -364,17 +430,26 @@ document.addEventListener("DOMContentLoaded", () => {
         focusedSuggestionIndex = items.length - 1;
       }
 
-      items[focusedSuggestionIndex].classList.add("is-active");
-      items[focusedSuggestionIndex].scrollIntoView({ block: "nearest" });
+      const activeItem = items[focusedSuggestionIndex];
+      activeItem.classList.add("is-active");
+      activeItem.setAttribute("aria-selected", "true");
+      activeItem.scrollIntoView({ block: "nearest" });
+
+      // Mitigate §6: Update aria-activedescendant with option element's ID
+      textField.setAttribute("aria-activedescendant", activeItem.id);
     }
 
     function showDropdown() {
+      if (originalSuggestions.length === 0) return; // Skip if no predefined suggestions
       dropdown.style.display = "block";
+      textField.setAttribute("aria-expanded", "true");
     }
 
     function hideDropdown() {
       dropdown.style.display = "none";
       focusedSuggestionIndex = -1;
+      textField.setAttribute("aria-expanded", "false");
+      textField.setAttribute("aria-activedescendant", "");
     }
 
     // Simple visual error feedback (shake input box)
@@ -385,4 +460,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 500);
     }
   });
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initPillboxInput);
+} else {
+  initPillboxInput();
+}

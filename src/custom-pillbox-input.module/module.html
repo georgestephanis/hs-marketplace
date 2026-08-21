@@ -3,18 +3,18 @@
   <style>
     {% scope_css %}
       .custom-pillbox-input-container {
-        --pillbox-accent: {{ module.styles.primary_color.color }};
-        --pillbox-accent-rgb: {{ module.styles.primary_color.color|convert_rgb }};
-        --pillbox-text: rgba({{ module.styles.text_color.color|convert_rgb }} {{ module.styles.text_color.opacity / 100 }});
-        --pillbox-text-rgb: {{ module.styles.text_color.color|convert_rgb }};
+        --pillbox-accent: {{ module.styles.primary_color.color|default("#3b82f6") }};
+        --pillbox-accent-rgb: {{ module.styles.primary_color.color|default("#3b82f6")|convert_rgb }};
+        --pillbox-text: rgba({{ module.styles.text_color.color|default("#ffffff")|convert_rgb }} {{ module.styles.text_color.opacity|default(100) / 100 }});
+        --pillbox-text-rgb: {{ module.styles.text_color.color|default("#ffffff")|convert_rgb }};
 
         {% if module.styles.bg_style == "solid" %}
-          --pillbox-bg: rgba({{ module.styles.primary_color.color|convert_rgb }}, 0.1);
-          --pillbox-border: rgba({{ module.styles.text_color.color|convert_rgb }}, 0.2);
+          --pillbox-bg: rgba({{ module.styles.primary_color.color|default("#3b82f6")|convert_rgb }}, 0.1);
+          --pillbox-border: rgba({{ module.styles.text_color.color|default("#ffffff")|convert_rgb }}, 0.2);
           --pillbox-backdrop: none;
         {% elif module.styles.bg_style == "glassmorphism" %}
           --pillbox-bg: rgba(15, 23, 42, 0.45);
-          --pillbox-border: rgba({{ module.styles.primary_color.color|convert_rgb }}, 0.25);
+          --pillbox-border: rgba({{ module.styles.primary_color.color|default("#3b82f6")|convert_rgb }}, 0.25);
           --pillbox-backdrop: blur(12px) saturate(160%);
         {% endif %}
       }
@@ -22,11 +22,19 @@
   </style>
 {% end_require_css %}
 
+{# Filter custom colors to prevent blank JSON arrays (§18) #}
+{% set custom_color_list = [] %}
+{% for color_field in module.custom_colors %}
+{% if color_field.color %}
+  {% do custom_color_list.append(color_field.color) %}
+{% endif %}
+{% endfor %}
+
 {# Component UI structure #}
 <div
   class="custom-pillbox-input-container"
   data-max-pills="{{ module.max_pills|escape_attr }}"
-  data-custom-colors='[{% for color_field in module.custom_colors %}"{{ color_field.color|escape_attr }}"{% if not loop.last %},{% endif %}{% endfor %}]'
+  data-custom-colors='[{% for color in custom_color_list %}"{{ color|escape_attr }}"{% if not loop.last %},{% endif %}{% endfor %}]'
   data-limit-reached-text="{{ module.limit_reached_text|escape_attr }}"
   data-remove-button-label="{{ module.remove_button_label|escape_attr }}"
   data-no-matches-text="{{ module.no_matches_text|escape_attr }}"
@@ -38,18 +46,36 @@
     </div>
     <input
       type="text"
+      id="custom-pillbox-input-{{ name|escape_attr }}-text"
       class="custom-pillbox-input__text-field"
       placeholder="{{ module.placeholder_text|escape_attr }}"
       autocomplete="off"
+      role="combobox"
+      aria-autocomplete="list"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls="custom-pillbox-input-{{ name|escape_attr }}-listbox"
+      aria-activedescendant=""
+      aria-label="{{ module.placeholder_text|default("Select tags")|escape_attr }}"
     />
   </div>
 
   {# Predefined auto-suggest dropdown #}
   <div class="custom-pillbox-input__suggestions-dropdown" style="display: none">
-    <ul class="custom-pillbox-input__suggestions-list">
+    <ul
+      id="custom-pillbox-input-{{ name|escape_attr }}-listbox"
+      class="custom-pillbox-input__suggestions-list"
+      role="listbox"
+    >
       {% for suggestion in module.predefined_suggestions %}
       {% if suggestion %}
-        <li class="custom-pillbox-input__suggestion-item" data-value="{{ suggestion|escape_attr }}">
+        <li
+          id="custom-pillbox-input-{{ name|escape_attr }}-opt-{{ loop.index0 }}"
+          class="custom-pillbox-input__suggestion-item"
+          data-value="{{ suggestion|escape_attr }}"
+          role="option"
+          aria-selected="false"
+        >
           {{ suggestion|escape_html }}
         </li>
       {% endif %}
@@ -59,11 +85,18 @@
 
   {# Semantic select multiple element for form integration and progressive enhancement #}
   <select
-    name="custom_pillbox_tags"
+    name="{{ module.field_name|default("custom_pillbox_tags")|escape_attr }}"
     class="custom-pillbox-input__select-field"
     multiple
     style="display: none"
   >
     {# Option elements will be dynamically appended here by JS #}
   </select>
+
+  {# Visually hidden live-region for screen readers (§8) #}
+  <div
+    id="custom-pillbox-input-{{ name|escape_attr }}-announcement"
+    class="custom-pillbox-input__sr-only"
+    aria-live="polite"
+  ></div>
 </div>

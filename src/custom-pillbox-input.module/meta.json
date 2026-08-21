@@ -5,6 +5,6 @@
   "host_template_types": ["PAGE"],
   "module_id": 384905900740,
   "label": "Custom Pillbox Input",
-  "icon": "../icons/promo-card-icon.svg",
+  "icon": "../icons/pillbox-icon.svg",
   "is_available_for_new_content": true
 }

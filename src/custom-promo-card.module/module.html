@@ -3,13 +3,13 @@
   <style>
     {% scope_css %}
       .custom-promo-card-container {
-        --primary-accent: {{ module.styles.primary_color.color }};
-        --text-color: rgba({{ module.styles.text_color.color|convert_rgb }} {{ module.styles.text_color.opacity / 100 }});
-        --text-color-rgb: {{ module.styles.text_color.color|convert_rgb }};
+        --primary-accent: {{ module.styles.primary_color.color|default("#3b82f6") }};
+        --text-color: rgba({{ module.styles.text_color.color|default("#ffffff")|convert_rgb }} {{ module.styles.text_color.opacity|default(100) / 100 }});
+        --text-color-rgb: {{ module.styles.text_color.color|default("#ffffff")|convert_rgb }};
 
         {% if module.styles.bg_style == "solid" %}
-          --card-bg: rgba({{ module.styles.primary_color.color|convert_rgb }} {{ module.styles.primary_color.opacity / 100 }});
-          --card-border: rgba({{ module.styles.text_color.color|convert_rgb }}, 0.15);
+          --card-bg: rgba({{ module.styles.primary_color.color|default("#3b82f6")|convert_rgb }} {{ module.styles.primary_color.opacity|default(100) / 100 }});
+          --card-border: rgba({{ module.styles.text_color.color|default("#ffffff")|convert_rgb }}, 0.15);
           --card-backdrop: none;
         {% elif module.styles.bg_style == "gradient" %}
           --card-bg: linear-gradient(
@@ -37,7 +37,10 @@
     {% endif %}
 
     <div class="custom-promo-card__main">
-      <h2 class="custom-promo-card__title">{{ module.card_title|escape_html }}</h2>
+      {% set heading_tag = module.card_heading_level|default("h2") %}
+      <{{ heading_tag }} class="custom-promo-card__title">
+        {{ module.card_title|escape_html }}
+      </{{ heading_tag }}>
       <div class="custom-promo-card__body">
         {{ module.card_body|sanitize_html }}
       </div>

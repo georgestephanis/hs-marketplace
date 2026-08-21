@@ -8,11 +8,11 @@ This repository serves as a workspace for preparing custom modules to offer on t
 
 We have implemented two highly modular custom components:
 
-1. **[Custom Promo Card Module](file:///Users/georgestephanis/code/hs-marketplace/src/custom-promo-card.module/README.md)** (`src/custom-promo-card.module`)
+1. **[Custom Promo Card Module](./src/custom-promo-card.module/README.md)** (`src/custom-promo-card.module`)
    - **Purpose**: A visually premium promotional banner card with Glassmorphism, animations, and container queries.
    - **Key Tech**: Size-aware `@container` layouts, content-adaptive `:has()` styling rules, and theme brand color overrides.
 
-2. **[Custom Pillbox Input Module](file:///Users/georgestephanis/code/hs-marketplace/src/custom-pillbox-input.module/README.md)** (`src/custom-pillbox-input.module`)
+2. **[Custom Pillbox Input Module](./src/custom-pillbox-input.module/README.md)** (`src/custom-pillbox-input.module`)
    - **Purpose**: A front-end interactive tag/chip input element with autocomplete dropdown search and key navigation.
    - **Key Tech**: Semantic `<select multiple>` backend with event dispatchers, validation shake feedback, and repeater lists suggestions.
 
@@ -59,7 +59,7 @@ npm run validate
 
 ## Tooling & Configuration Details
 
-- **[.prettierrc.json](file:///Users/georgestephanis/code/hs-marketplace/.prettierrc.json)**: Runs Prettier configured with the official `@hubspot/prettier-plugin-hubl` plugin.
-- **[.vscode/settings.json](file:///Users/georgestephanis/code/hs-marketplace/.vscode/settings.json)**: Maps HTML and CSS files inside VS Code to the custom `html-hubl` and `css-hubl` syntax highlighting modes.
-- **[.hsignore](file:///Users/georgestephanis/code/hs-marketplace/.hsignore)**: Instructs the HubSpot CLI to ignore all `README.md` documentation files inside module folders so they do not cause upload errors.
-- **[AGENTS.md](file:///Users/georgestephanis/code/hs-marketplace/AGENTS.md)**: Workspace developer guide detailing repository guidelines and available custom skills on this machine.
+- **[.prettierrc.json](./.prettierrc.json)**: Runs Prettier configured with the official `@hubspot/prettier-plugin-hubl` plugin.
+- **[.vscode/settings.json](./.vscode/settings.json)**: Maps HTML and CSS files inside VS Code to the custom `html-hubl` and `css-hubl` syntax highlighting modes.
+- **[.hsignore](./.hsignore)**: Instructs the HubSpot CLI to ignore all `README.md` documentation files inside module folders so they do not cause upload errors.
+- **[AGENTS.md](./AGENTS.md)**: Workspace developer guide detailing repository guidelines and available custom skills on this machine.
