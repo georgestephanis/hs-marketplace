@@ -83,7 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         el = el.parentElement;
       }
-      return "rgb(255, 255, 255)"; // Fallback
+
+      // Check native browser preferences if no explicit background is set
+      const isDarkPreferred =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      return isDarkPreferred ? "rgb(15, 23, 42)" : "rgb(255, 255, 255)";
     }
 
     function parseRgb(colorStr) {
