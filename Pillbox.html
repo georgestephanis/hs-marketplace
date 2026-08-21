@@ -3,38 +3,96 @@
     isAvailableForNewContent: true
 -->
 <!doctype html>
-<html>
+<html lang="{{ html_lang }}">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% if content.html_title %}<title>{{ content.html_title }}</title>{% endif %}
     <meta name="description" content="{{ content.meta_description }}">
     {% if brand_settings.primaryFavicon.src %}
       <link rel="shortcut icon" href="{{ brand_settings.primaryFavicon.src }}" />
     {% endif %}
     {{ standard_header_includes }}
+    {% require_css %}
+      <style>
+        body.pillbox-page {
+          background-color: #0f172a;
+          color: #ffffff;
+          font-family: system-ui, -apple-system, sans-serif;
+          margin: 0;
+        }
+
+        .pillbox-page__stage {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          padding: 2rem;
+          box-sizing: border-box;
+        }
+
+        .pillbox-page__card {
+          background: rgba(30, 41, 59, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 2.5rem;
+          border-radius: 16px;
+          width: 100%;
+          max-width: 480px;
+          backdrop-filter: blur(8px);
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .pillbox-page__title {
+          font-size: 1.5rem;
+          margin-top: 0;
+          margin-bottom: 1.5rem;
+          font-weight: 700;
+          letter-spacing: -0.02em;
+        }
+
+        .pillbox-page__label {
+          display: block;
+          font-size: 0.85rem;
+          font-weight: 600;
+          margin: 0 0 0.5rem;
+          color: rgba(255, 255, 255, 0.7);
+        }
+      </style>
+    {% end_require_css %}
   </head>
-  <body>
-    {% dnd_area "dnd_area"
-      label="Main section"
-    %}
-      {% dnd_section
-        vertical_alignment="MIDDLE"
-        max_width=1080
-      %}
-        {% dnd_column %}
-          {% dnd_row %}
-            {% dnd_module
-              path="/src/custom-pillbox-input.module",
-              field_name="custom_pillbox_tags",
-              placeholder_text="Add tags...",
-              max_pills=10,
-              predefined_suggestions=["Marketing", "Sales", "Development", "Design"]
-            %}
-            {% end_dnd_module %}
-          {% end_dnd_row %}
-        {% end_dnd_column %}
-      {% end_dnd_section %}
-    {% end_dnd_area %}
+  <body class="pillbox-page">
+    <main class="pillbox-page__stage">
+      <div class="pillbox-page__card">
+        <h1 class="pillbox-page__title">Custom Pillbox Selector</h1>
+        <p class="pillbox-page__label">Select Skills &amp; Technologies</p>
+
+        {% dnd_area "dnd_area"
+          label="Main section"
+        %}
+          {% dnd_section
+            vertical_alignment="MIDDLE"
+            max_width=480
+          %}
+            {% dnd_column %}
+              {% dnd_row %}
+                {% dnd_module
+                  path="/src/custom-pillbox-input.module",
+                  field_name="custom_pillbox_tags",
+                  placeholder_text="Type tags (e.g. Node, React)...",
+                  max_pills=5,
+                  limit_reached_text="Limit reached",
+                  remove_button_label="Remove",
+                  no_matches_text="No suggestions found",
+                  predefined_suggestions=["Marketing", "Sales", "Development", "Design"]
+                %}
+                {% end_dnd_module %}
+              {% end_dnd_row %}
+            {% end_dnd_column %}
+          {% end_dnd_section %}
+        {% end_dnd_area %}
+      </div>
+    </main>
     {{ standard_footer_includes }}
   </body>
 </html>
